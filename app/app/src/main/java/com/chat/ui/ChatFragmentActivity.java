@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import com.chat.Injector;
+import com.chat.util.Ln;
 import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
@@ -27,8 +28,12 @@ public class ChatFragmentActivity extends ActionBarActivity {
 
     @Override
     public void setContentView(final int layoutResId) {
-        super.setContentView(layoutResId);
-        ButterKnife.inject(this);
+        try {
+            super.setContentView(layoutResId);
+            ButterKnife.inject(this);
+        }catch (Exception ex){
+            Ln.e(ex);
+        }
     }
 
     @Override
