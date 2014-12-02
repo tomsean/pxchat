@@ -1,7 +1,14 @@
 package com.chat;
 
+import android.accounts.AccountManager;
+
+import com.chat.authenticator.ApiKeyProvider;
+import com.chat.core.Constants;
 import com.chat.core.PostFromAnyThreadBus;
+import com.chat.core.RestAdapterRequestInterceptor;
 import com.chat.core.RestErrorHandler;
+import com.chat.core.UserAgentProvider;
+import com.chat.ui.MainActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.otto.Bus;
@@ -10,6 +17,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
 
 /**
  * Created by HQ_19 on 2014/12/2.
@@ -17,7 +26,8 @@ import dagger.Provides;
 @Module(
         complete = false,
         injects = {
-                ChatApplication.class
+                ChatApplication.class,
+                MainActivity.class
         }
 )
 public class ChatModule {
@@ -45,7 +55,33 @@ public class ChatModule {
     }
 
     @Provides
+    ApiKeyProvider provideApiKeyProvider(AccountManager accountManager) {
+        return new ApiKeyProvider(accountManager);
+    }
+
+    @Provides
+    ChatServiceProvider provideBootstrapServiceProvider(RestAdapter restAdapter, ApiKeyProvider apiKeyProvider) {
+        return new ChatServiceProvider(restAdapter, apiKeyProvider);
+    }
+
+    @Provides
     RestErrorHandler provideRestErrorHandler(Bus bus) {
         return new RestErrorHandler(bus);
+    }
+
+    @Provides
+    RestAdapterRequestInterceptor provideRestAdapterRequestInterceptor(UserAgentProvider userAgentProvider) {
+        return new RestAdapterRequestInterceptor(userAgentProvider);
+    }
+
+    @Provides
+    RestAdapter provideRestAdapter(RestErrorHandler restErrorHandler, RestAdapterRequestInterceptor restRequestInterceptor, Gson gson) {
+        return new RestAdapter.Builder()
+                .setEndpoint(Constants.Http.URL_BASE)
+                .setErrorHandler(restErrorHandler)
+                .setRequestInterceptor(restRequestInterceptor)
+                .setLogLevel(RestAdapter.LogLevel.FULL)
+                .setConverter(new GsonConverter(gson))
+                .build();
     }
 }

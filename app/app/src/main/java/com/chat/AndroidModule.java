@@ -21,7 +21,6 @@ import dagger.Provides;
  */
 @Module(complete = false, library = true)
 public class AndroidModule {
-
     @Provides
     @Singleton
     Context provideAppContext() {
