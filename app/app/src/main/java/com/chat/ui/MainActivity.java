@@ -6,23 +6,34 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 
 import com.beardedhen.androidbootstrap.FontAwesomeText;
 import com.chat.ChatServiceProvider;
 import com.chat.mobile.R;
+import com.chat.util.Ln;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import butterknife.InjectView;
+
 public class MainActivity extends ChatFragmentActivity {
     private ArrayList<Fragment> fragments;
-    private TabViewPager tabpager;
-    private FontAwesomeText img_main, img_classify, img_track, img_me;
-    private FontAwesomeText[] tabOff;
+    @InjectView(R.id.tabpager)
+    protected TabViewPager tabPager;
+    @InjectView(R.id.img_main)
+    protected FontAwesomeText img_main;
+    @InjectView(R.id.img_classify)
+    protected FontAwesomeText img_classify;
+    @InjectView(R.id.img_track)
+    protected FontAwesomeText img_track;
+    @InjectView(R.id.img_me)
+    protected FontAwesomeText img_me;
+
     @Inject
     protected ChatServiceProvider serviceProvider;
+    private FontAwesomeText[] tabBtns;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,16 +47,9 @@ public class MainActivity extends ChatFragmentActivity {
         fragments.add(new AddressListFragment());
         fragments.add(new FriendsFragment());
         fragments.add(new SetFragment());
-        img_main = (FontAwesomeText) findViewById(R.id.img_main);
-        img_main.setIcon("fa-music");
-        img_classify = (FontAwesomeText) findViewById(R.id.img_classify);
-        img_track = (FontAwesomeText) findViewById(R.id.img_track);
-        img_me = (FontAwesomeText) findViewById(R.id.img_me);
-        tabOff = new FontAwesomeText[]{img_main, img_classify, img_track, img_me};
-
-        tabpager = (TabViewPager) findViewById(R.id.tabpager);
-        tabpager.setAdapter(pageAdapter);
-        tabpager.setOnPageChangeListener(onPageChangeListener);
+        tabBtns = new FontAwesomeText[]{img_main, img_classify, img_track, img_me};
+        tabPager.setAdapter(pageAdapter);
+        tabPager.setOnPageChangeListener(onPageChangeListener);
     }
 
     @Override
@@ -95,10 +99,19 @@ public class MainActivity extends ChatFragmentActivity {
 
         @Override
         public void onPageScrolled(int arg0, float arg1, int arg2) {
+
         }
 
         @Override
         public void onPageScrollStateChanged(int arg0) {
+            for (int i=0;i<tabBtns.length;i++){
+                if (i==arg0){
+                    tabBtns[arg0].setTextColor(getResources().getColor(R.color.bbutton_danger));
+
+                }else {
+                    tabBtns[arg0].setTextColor(getResources().getColor(R.color.bbutton_info));
+                }
+            }
         }
     };
 }

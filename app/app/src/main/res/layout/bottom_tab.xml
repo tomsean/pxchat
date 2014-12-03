@@ -28,10 +28,7 @@
                     android:id="@+id/img_main"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:textSize="12sp"
-                    fontawesometext:fa_icon="fa-music"
-                    android:textColor="@color/bbutton_danger" />
+                    fontawesometext:fa_icon="fa-music" android:textColor="@color/bbutton_danger"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -52,10 +49,7 @@
                     android:id="@+id/img_classify"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:textSize="12sp"
-                    fontawesometext:fa_icon="fa-music"
-                    android:textColor="@color/bbutton_danger" />
+                    fontawesometext:fa_icon="fa-music"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -75,10 +69,7 @@
                     android:id="@+id/img_track"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:textSize="12sp"
-                    fontawesometext:fa_icon="fa-music"
-                    android:textColor="@color/bbutton_danger" />
+                    fontawesometext:fa_icon="fa-music"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -99,10 +90,7 @@
                     android:id="@+id/img_me"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:textSize="12sp"
-                    fontawesometext:fa_icon="fa-music"
-                    android:textColor="@color/bbutton_danger" />
+                    fontawesometext:fa_icon="fa-music"/>
 
                 <TextView
                     android:layout_width="wrap_content"
