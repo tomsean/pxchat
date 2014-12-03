@@ -1,48 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bootstrapbutton="http://schemas.android.com/apk/res-auto">
+    xmlns:fontawesometext="http://schemas.android.com/apk/res-auto">
+
     <RelativeLayout
         android:id="@+id/main_bottom"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:background="@drawable/boder"
-        android:orientation="vertical" >
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
 
-            android:paddingBottom="2dp" >
+            android:paddingBottom="2dp">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
-                <FrameLayout
+                <com.beardedhen.androidbootstrap.FontAwesomeText
+                    android:id="@+id/img_main"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-
-                    <ImageView
-                        android:id="@+id/img_main"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:scaleType="matrix"
-                        android:src="@drawable/tab_weixin_normal" />
-
-                    <ImageView
-                        android:id="@+id/img_main_on"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:scaleType="matrix"
-                        android:src="@drawable/tab_weixin_pressed"
-                        />
-                </FrameLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textSize="12sp"
+                    fontawesometext:fa_icon="fa-music"
+                    android:textColor="@color/bbutton_danger" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -57,31 +46,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
-                <FrameLayout
+                <com.beardedhen.androidbootstrap.FontAwesomeText
+                    android:id="@+id/img_classify"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-
-                    <ImageView
-                        android:id="@+id/img_classify"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:scaleType="matrix"
-                        android:src="@drawable/tab_address_normal" />
-
-                    <ImageView
-                        android:id="@+id/img_classify_on"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha="0"
-                        android:clickable="true"
-                        android:scaleType="matrix"
-                        android:src="@drawable/tab_address_pressed"
-                        />
-                </FrameLayout>
-
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textSize="12sp"
+                    fontawesometext:fa_icon="fa-music"
+                    android:textColor="@color/bbutton_danger" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -95,30 +69,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
-                <FrameLayout
+                <com.beardedhen.androidbootstrap.FontAwesomeText
+                    android:id="@+id/img_track"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-
-                    <ImageView
-                        android:id="@+id/img_track"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:scaleType="matrix"
-                        android:src="@drawable/tab_find_frd_normal" />
-
-                    <ImageView
-                        android:id="@+id/img_track_on"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha="0"
-                        android:clickable="true"
-                        android:scaleType="matrix"
-                        android:src="@drawable/tab_find_frd_pressed"
-                        />
-                </FrameLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textSize="12sp"
+                    fontawesometext:fa_icon="fa-music"
+                    android:textColor="@color/bbutton_danger" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -133,31 +93,16 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
-                <FrameLayout
+                <com.beardedhen.androidbootstrap.FontAwesomeText
+                    android:id="@+id/img_me"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-
-                    <ImageView
-                        android:id="@+id/img_me"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:scaleType="matrix"
-                        android:src="@drawable/tab_settings_normal" />
-
-                    <ImageView
-                        android:id="@+id/img_me_on"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha="0"
-                        android:clickable="true"
-                        android:scaleType="matrix"
-                        android:src="@drawable/tab_settings_pressed"
-                        />
-
-                </FrameLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textSize="12sp"
+                    fontawesometext:fa_icon="fa-music"
+                    android:textColor="@color/bbutton_danger" />
 
                 <TextView
                     android:layout_width="wrap_content"

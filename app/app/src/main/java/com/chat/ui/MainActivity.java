@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.beardedhen.androidbootstrap.FontAwesomeText;
 import com.chat.ChatServiceProvider;
 import com.chat.mobile.R;
 
@@ -18,10 +19,8 @@ import javax.inject.Inject;
 public class MainActivity extends ChatFragmentActivity {
     private ArrayList<Fragment> fragments;
     private TabViewPager tabpager;
-    private ImageView img_main, img_classify, img_track, img_me;
-    private ImageView img_main_on, img_classify_on, img_track_on, img_me_on;
-    private ImageView[] tabOff;
-    private ImageView[] tabOn;
+    private FontAwesomeText img_main, img_classify, img_track, img_me;
+    private FontAwesomeText[] tabOff;
     @Inject
     protected ChatServiceProvider serviceProvider;
     @Override
@@ -37,16 +36,12 @@ public class MainActivity extends ChatFragmentActivity {
         fragments.add(new AddressListFragment());
         fragments.add(new FriendsFragment());
         fragments.add(new SetFragment());
-        img_main = (ImageView) findViewById(R.id.img_main);
-        img_classify = (ImageView) findViewById(R.id.img_classify);
-        img_track = (ImageView) findViewById(R.id.img_track);
-        img_me = (ImageView) findViewById(R.id.img_me);
-        img_main_on = (ImageView) findViewById(R.id.img_main_on);
-        img_classify_on = (ImageView) findViewById(R.id.img_classify_on);
-        img_track_on = (ImageView) findViewById(R.id.img_track_on);
-        img_me_on = (ImageView) findViewById(R.id.img_me_on);
-        tabOff = new ImageView[]{img_main, img_classify, img_track, img_me};
-        tabOn = new ImageView[]{img_main_on, img_classify_on, img_track_on, img_me_on};
+        img_main = (FontAwesomeText) findViewById(R.id.img_main);
+        img_main.setIcon("fa-music");
+        img_classify = (FontAwesomeText) findViewById(R.id.img_classify);
+        img_track = (FontAwesomeText) findViewById(R.id.img_track);
+        img_me = (FontAwesomeText) findViewById(R.id.img_me);
+        tabOff = new FontAwesomeText[]{img_main, img_classify, img_track, img_me};
 
         tabpager = (TabViewPager) findViewById(R.id.tabpager);
         tabpager.setAdapter(pageAdapter);
@@ -100,21 +95,6 @@ public class MainActivity extends ChatFragmentActivity {
 
         @Override
         public void onPageScrolled(int arg0, float arg1, int arg2) {
-            tabOn[arg0].setAlpha(1 - arg1);
-            tabOff[arg0].setAlpha(arg1);
-
-            if (tabpager.getMoveLeft()) {
-                if (arg0 != 0) {
-                    tabOn[arg0 - 1].setAlpha(arg1);
-                    tabOff[arg0 - 1].setAlpha(1 - arg1);
-                }
-            } else {
-                if (arg0 != pageAdapter.getCount() - 1) {
-                    tabOn[arg0 + 1].setAlpha(arg1);
-                    tabOff[arg0 + 1].setAlpha(1 - arg1);
-                }
-
-            }
         }
 
         @Override
