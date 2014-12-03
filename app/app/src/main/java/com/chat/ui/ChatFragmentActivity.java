@@ -28,12 +28,8 @@ public class ChatFragmentActivity extends ActionBarActivity {
 
     @Override
     public void setContentView(final int layoutResId) {
-        try {
-            super.setContentView(layoutResId);
-            ButterKnife.inject(this);
-        }catch (Exception ex){
-            Ln.e(ex);
-        }
+        super.setContentView(layoutResId);
+        ButterKnife.inject(this);
     }
 
     @Override
