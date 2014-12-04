@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import com.beardedhen.androidbootstrap.FontAwesomeText;
 import com.chat.ChatServiceProvider;
 import com.chat.mobile.R;
-import com.chat.util.Ln;
 
 import java.util.ArrayList;
 
@@ -24,16 +23,17 @@ public class MainActivity extends ChatFragmentActivity {
     protected TabViewPager tabPager;
     @InjectView(R.id.img_main)
     protected FontAwesomeText img_main;
-    @InjectView(R.id.img_classify)
-    protected FontAwesomeText img_classify;
-    @InjectView(R.id.img_track)
-    protected FontAwesomeText img_track;
+    @InjectView(R.id.img_contacts)
+    protected FontAwesomeText img_contacts;
+    @InjectView(R.id.img_detection)
+    protected FontAwesomeText img_detection;
     @InjectView(R.id.img_me)
     protected FontAwesomeText img_me;
 
     @Inject
     protected ChatServiceProvider serviceProvider;
     private FontAwesomeText[] tabBtns;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +47,7 @@ public class MainActivity extends ChatFragmentActivity {
         fragments.add(new AddressListFragment());
         fragments.add(new FriendsFragment());
         fragments.add(new SetFragment());
-        tabBtns = new FontAwesomeText[]{img_main, img_classify, img_track, img_me};
+        tabBtns = new FontAwesomeText[]{img_main, img_contacts, img_detection, img_me};
         tabPager.setAdapter(pageAdapter);
         tabPager.setOnPageChangeListener(onPageChangeListener);
     }
@@ -94,24 +94,30 @@ public class MainActivity extends ChatFragmentActivity {
     private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
 
         @Override
-        public void onPageSelected(int arg0) {
+        public void onPageSelected(int position) {
+            setBottomTabSelected(position);
         }
 
         @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
-
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         }
 
         @Override
-        public void onPageScrollStateChanged(int arg0) {
-            for (int i=0;i<tabBtns.length;i++){
-                if (i==arg0){
-                    tabBtns[arg0].setTextColor(getResources().getColor(R.color.bbutton_danger));
+        public void onPageScrollStateChanged(int state) {
 
-                }else {
-                    tabBtns[arg0].setTextColor(getResources().getColor(R.color.bbutton_info));
-                }
+        }
+
+
+    };
+
+    private boolean setBottomTabSelected(int position) {
+        for (int i = 0; i < tabBtns.length; i++) {
+            if (i == position) {
+                tabBtns[i].setTextColor(getResources().getColor(R.color.bbutton_success));
+            } else {
+                tabBtns[i].setTextColor(getResources().getColor(R.color.Gray));
             }
         }
-    };
+        return true;
+    }
 }

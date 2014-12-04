@@ -4,5 +4,8 @@
     <string name="app_name">chat</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="bottom_main">微信</string>
+    <string name="bottom_contacts">通讯录</string>
+    <string name="bottom_detection">发现</string>
+    <string name="bottom_me">我</string>
 </resources>

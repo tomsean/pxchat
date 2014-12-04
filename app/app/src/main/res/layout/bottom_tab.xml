@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fontawesometext="http://schemas.android.com/apk/res-auto">
-
     <RelativeLayout
         android:id="@+id/main_bottom"
         android:layout_width="match_parent"
@@ -9,12 +8,10 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/boder"
         android:orientation="vertical">
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-
             android:paddingBottom="2dp">
 
             <LinearLayout
@@ -28,14 +25,15 @@
                     android:id="@+id/img_main"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    fontawesometext:fa_icon="fa-music" android:textColor="@color/bbutton_danger"/>
+                    android:textSize="28sp"
+                    fontawesometext:fa_icon="fa-comments" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="微信"
+                    android:text="@string/bottom_main"
                     android:textColor="#000"
-                    android:textSize="12sp" />
+                    android:textSize="8sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -46,16 +44,18 @@
                 android:orientation="vertical">
 
                 <com.beardedhen.androidbootstrap.FontAwesomeText
-                    android:id="@+id/img_classify"
+                    android:id="@+id/img_contacts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    fontawesometext:fa_icon="fa-music"/>
+                    android:textSize="28sp"
+                    fontawesometext:fa_icon="fa-users" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="通讯录"
+                    android:text="@string/bottom_contacts"
                     android:textColor="#000"
-                    android:textSize="12sp" />
+                    android:textSize="8sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -66,17 +66,18 @@
                 android:orientation="vertical">
 
                 <com.beardedhen.androidbootstrap.FontAwesomeText
-                    android:id="@+id/img_track"
+                    android:id="@+id/img_detection"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    fontawesometext:fa_icon="fa-music"/>
+                    android:textSize="28sp"
+                    fontawesometext:fa_icon="fa-compass" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="朋友们"
+                    android:text="@string/bottom_detection"
                     android:textColor="#000"
-                    android:textSize="12sp" />
+                    android:textSize="8sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -85,19 +86,19 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
-
                 <com.beardedhen.androidbootstrap.FontAwesomeText
                     android:id="@+id/img_me"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    fontawesometext:fa_icon="fa-music"/>
+                    android:textSize="28sp"
+                    fontawesometext:fa_icon="fa-user" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="设置"
+                    android:text="@string/bottom_me"
                     android:textColor="#000"
-                    android:textSize="12sp" />
+                    android:textSize="8sp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
