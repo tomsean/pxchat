@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class MainActivity extends ChatFragmentActivity {
     private ArrayList<Fragment> fragments;
@@ -29,7 +30,6 @@ public class MainActivity extends ChatFragmentActivity {
     protected FontAwesomeText img_detection;
     @InjectView(R.id.img_me)
     protected FontAwesomeText img_me;
-
     @Inject
     protected ChatServiceProvider serviceProvider;
     private FontAwesomeText[] tabBtns;
@@ -119,5 +119,20 @@ public class MainActivity extends ChatFragmentActivity {
             }
         }
         return true;
+    }
+
+    private int getBottomTabIndex(FontAwesomeText fontAwesomeText) {
+        for (int i = 0; i < tabBtns.length; i++) {
+            if (tabBtns[i] == fontAwesomeText) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @OnClick({R.id.img_main, R.id.img_contacts, R.id.img_detection, R.id.img_me})
+    public void tabImgClick(FontAwesomeText fontAwesomeText) {
+        int index = getBottomTabIndex(fontAwesomeText);
+        tabPager.setCurrentItem(index, true);
     }
 }

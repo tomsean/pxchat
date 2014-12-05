@@ -12,5 +12,4 @@
         android:textColor="@android:color/black"
         android:layout_gravity="center_horizontal"
         android:text="微信" />
-
 </LinearLayout>

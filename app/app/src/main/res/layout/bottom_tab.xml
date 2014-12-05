@@ -26,7 +26,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="28sp"
-                    fontawesometext:fa_icon="fa-comments" />
+                    fontawesometext:fa_icon="fa-comments"
+                    android:textColor="@color/bbutton_success"/>
 
                 <TextView
                     android:layout_width="wrap_content"
