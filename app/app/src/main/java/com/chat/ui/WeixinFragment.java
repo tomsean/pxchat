@@ -7,12 +7,15 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.chat.mobile.R;
 import com.chat.util.Ln;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.ButterKnife;
 
 public class WeixinFragment extends SwipeRefreshListFragment {
     @Override
@@ -40,6 +43,27 @@ public class WeixinFragment extends SwipeRefreshListFragment {
         setColorScheme(R.color.color_refresh_3_1, R.color.color_refresh_3_2,
                 R.color.color_refresh_3_3, R.color.color_refresh_3_4);
         ArrayList<String> listData = new ArrayList<String>();
+        ListView listView = getListView();
+        if (listView.getHeaderViewsCount() == 0) {
+            View header = View.inflate(this.getActivity(), R.layout.activity_main_head, null);
+            listView.addHeaderView(header);
+        }
+        listData.add("123");
+        listData.add("456");
+        listData.add("789");
+        listData.add("321");
+        listData.add("123");
+        listData.add("456");
+        listData.add("789");
+        listData.add("321");
+        listData.add("123");
+        listData.add("456");
+        listData.add("789");
+        listData.add("321");
+        listData.add("123");
+        listData.add("456");
+        listData.add("789");
+        listData.add("321");
         listData.add("123");
         listData.add("456");
         listData.add("789");
@@ -64,7 +88,13 @@ public class WeixinFragment extends SwipeRefreshListFragment {
                 initiateRefresh();
             }
         });
+        ButterKnife.inject(this, view);
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        setListAdapter(null);
     }
 
     private void initiateRefresh() {
