@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fontawesometext="http://schemas.android.com/apk/res-auto">
+
     <RelativeLayout
         android:id="@+id/main_bottom"
         android:layout_width="match_parent"
@@ -8,6 +9,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/boder"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -15,6 +17,7 @@
             android:paddingBottom="2dp">
 
             <LinearLayout
+                android:id="@+id/bottom_tab_main"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -27,7 +30,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="28sp"
                     fontawesometext:fa_icon="fa-comments"
-                    android:textColor="@color/bbutton_success"/>
+                    android:textColor="@color/bbutton_success" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -38,6 +41,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/bottom_tab_contacts"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -60,6 +64,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/bottom_tab_detection"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -82,11 +87,13 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/bottom_tab_me"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
+
                 <com.beardedhen.androidbootstrap.FontAwesomeText
                     android:id="@+id/img_me"
                     android:layout_width="wrap_content"

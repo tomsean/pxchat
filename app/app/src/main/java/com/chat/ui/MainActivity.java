@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.beardedhen.androidbootstrap.FontAwesomeText;
 import com.chat.ChatServiceProvider;
@@ -43,8 +44,7 @@ public class MainActivity extends ChatFragmentActivity {
 
     private void init() {
         fragments = new ArrayList<Fragment>();
-//        fragments.add(new MessageFragment());
-        fragments.add(new WeixinFragment());
+        fragments.add(new MessageFragment());
         fragments.add(new AddressListFragment());
         fragments.add(new FriendsFragment());
         fragments.add(new SetFragment());
@@ -107,8 +107,6 @@ public class MainActivity extends ChatFragmentActivity {
         public void onPageScrollStateChanged(int state) {
 
         }
-
-
     };
 
     private boolean setBottomTabSelected(int position) {
@@ -122,18 +120,24 @@ public class MainActivity extends ChatFragmentActivity {
         return true;
     }
 
-    private int getBottomTabIndex(FontAwesomeText fontAwesomeText) {
-        for (int i = 0; i < tabBtns.length; i++) {
-            if (tabBtns[i] == fontAwesomeText) {
-                return i;
-            }
+    @OnClick({R.id.bottom_tab_main, R.id.bottom_tab_contacts, R.id.bottom_tab_detection, R.id.bottom_tab_me})
+    public void tabImgClick(View view) {
+        int index = 0;
+        switch (view.getId()) {
+            case R.id.bottom_tab_main:
+                index = 0;
+                break;
+            case R.id.bottom_tab_contacts:
+                index = 1;
+                break;
+            case R.id.bottom_tab_detection:
+                index = 2;
+                break;
+            case R.id.bottom_tab_me:
+                index = 3;
+                break;
         }
-        return -1;
-    }
-
-    @OnClick({R.id.img_main, R.id.img_contacts, R.id.img_detection, R.id.img_me})
-    public void tabImgClick(FontAwesomeText fontAwesomeText) {
-        int index = getBottomTabIndex(fontAwesomeText);
+        ;
         tabPager.setCurrentItem(index, true);
     }
 }
