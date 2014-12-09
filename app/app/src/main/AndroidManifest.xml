@@ -38,7 +38,8 @@
             android:name="com.chat.ui.ChatActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize" >
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
     </application>
 

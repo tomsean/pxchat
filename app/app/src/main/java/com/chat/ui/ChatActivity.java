@@ -148,7 +148,6 @@ public class ChatActivity extends ChatFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        getSupportActionBar().hide();
         initView();
         setUpView();
     }
@@ -263,12 +262,31 @@ public class ChatActivity extends ChatFragmentActivity {
 
     @OnClick(R.id.iv_emoticons_normal)
     public void ivEmoticonsNormalClick(ImageView view) {
-        Toast.makeText(this, "iv_emoticons_normal", Toast.LENGTH_LONG).show();
+        more.setVisibility(View.VISIBLE);
+        iv_emoticons_normal.setVisibility(View.INVISIBLE);
+        iv_emoticons_checked.setVisibility(View.VISIBLE);
+        btnContainer.setVisibility(View.GONE);
+        emojiIconContainer.setVisibility(View.VISIBLE);
+        hideKeyboard();
+    }
+
+    /**
+     * 隐藏软键盘
+     */
+    private void hideKeyboard() {
+        if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (getCurrentFocus() != null)
+                manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     @OnClick(R.id.iv_emoticons_checked)
     public void ivEmoticonsCheckedClick(ImageView view) {
-        Toast.makeText(this, "iv_emoticons_checked", Toast.LENGTH_LONG).show();
+        iv_emoticons_normal.setVisibility(View.VISIBLE);
+        iv_emoticons_checked.setVisibility(View.INVISIBLE);
+        btnContainer.setVisibility(View.VISIBLE);
+        emojiIconContainer.setVisibility(View.GONE);
+        more.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.btn_send)
@@ -305,7 +323,14 @@ public class ChatActivity extends ChatFragmentActivity {
     public void btnVoiceCall(ImageView image) {
         Toast.makeText(this, "btn_voice_call", Toast.LENGTH_LONG).show();
     }
-
+    /**
+     * 返回
+     *
+     * @param view
+     */
+    public void back(View view) {
+        finish();
+    }
     /**
      * 获取表情的gridview的子view
      *
