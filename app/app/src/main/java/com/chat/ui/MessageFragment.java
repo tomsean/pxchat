@@ -1,18 +1,20 @@
 package com.chat.ui;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.chat.mobile.R;
-import com.chat.ui.adapter.MessageAdapter;
+import com.chat.ui.adapter.MessageHistoryAdapter;
 import com.chat.ui.model.MessageRowModel;
 import com.chat.util.Ln;
 import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMContact;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
@@ -30,7 +32,7 @@ import butterknife.ButterKnife;
 
 public class MessageFragment extends SwipeRefreshListFragment {
     private List<MessageRowModel> messageRowModels;
-    private MessageAdapter adapter;
+    private MessageHistoryAdapter adapter;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class MessageFragment extends SwipeRefreshListFragment {
             View header = View.inflate(this.getActivity(), R.layout.activity_main_head, null);
             listView.addHeaderView(header);
         }
-        adapter = new MessageAdapter(getActivity(), 1, messageRowModels);
+        adapter = new MessageHistoryAdapter(getActivity(), 1, messageRowModels);
         setListAdapter(adapter);
         /**
          * Implement {@link android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener}. When users do the "swipe to
@@ -57,6 +59,28 @@ public class MessageFragment extends SwipeRefreshListFragment {
             public void onRefresh() {
                 Ln.i("微信", "onRefresh called from SwipeRefreshLayout");
                 initiateRefresh();
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                MessageRowModel row = adapter.getItem(position-1);
+                String userName = row.getName();
+                if (userName.equals("my")) {
+                    Toast.makeText(getActivity(), "不能和自己聊天", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                    EMContact emContact = row.getEmGroup();
+                    if (emContact != null && emContact instanceof EMGroup) {
+                        // it is group chat
+                        intent.putExtra("chatType", ChatActivity.CHATTYPE_GROUP);
+                        intent.putExtra("groupId", ((EMGroup) emContact).getGroupId());
+                    } else {
+                        // it is single chat
+                        intent.putExtra("userId", userName);
+                    }
+                    startActivity(intent);
+                }
             }
         });
         ButterKnife.inject(this, view);
