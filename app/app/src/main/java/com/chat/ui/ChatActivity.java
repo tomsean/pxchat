@@ -1,7 +1,9 @@
 package com.chat.ui;
 
+import android.app.AlertDialog;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,12 +27,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.chat.ChatApplication;
 import com.chat.mobile.R;
 import com.chat.ui.adapter.ExpressionAdapter;
 import com.chat.ui.adapter.ExpressionPagerAdapter;
 import com.chat.ui.adapter.MessageAdapter;
 import com.chat.util.CommonUtils;
-import com.chat.util.Ln;
 import com.chat.util.SmileUtils;
 import com.easemob.EMError;
 import com.easemob.chat.EMChatManager;
@@ -37,7 +40,9 @@ import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
 import com.easemob.chat.EMGroupManager;
 import com.easemob.chat.EMMessage;
+import com.easemob.chat.TextMessageBody;
 import com.easemob.chat.VoiceMessageBody;
+import com.easemob.util.PathUtil;
 import com.easemob.util.VoiceRecorder;
 
 import java.io.File;
@@ -258,6 +263,42 @@ public class ChatActivity extends ChatFragmentActivity {
         adapter = new MessageAdapter(this, toChatUsername, chatType);
         // 显示消息
         listView.setAdapter(adapter);
+        listView.setOnScrollListener(new ListScrollListener());
+        int count = listView.getCount();
+        if (count > 0) {
+            listView.setSelection(count - 1);
+        }
+
+        listView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard();
+                more.setVisibility(View.GONE);
+                iv_emoticons_normal.setVisibility(View.VISIBLE);
+                iv_emoticons_checked.setVisibility(View.INVISIBLE);
+                emojiIconContainer.setVisibility(View.GONE);
+                btnContainer.setVisibility(View.GONE);
+                return false;
+            }
+        });
+    }
+
+    /**
+     * listview滑动监听listener
+     */
+    private class ListScrollListener implements AbsListView.OnScrollListener {
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+        }
+
     }
 
     @OnClick(R.id.iv_emoticons_normal)
@@ -280,6 +321,28 @@ public class ChatActivity extends ChatFragmentActivity {
         }
     }
 
+    /**
+     * 点击清空聊天记录
+     *
+     * @param view
+     */
+    @OnClick(R.id.container_remove)
+    public void emptyHistory(View view) {
+        startActivityForResult(
+                new Intent(this, AlertDialog.class).putExtra("titleIsCancel", true).putExtra("msg", "是否清空所有聊天记录").putExtra("cancel", true),
+                REQUEST_CODE_EMPTY_HISTORY);
+    }
+
+    @OnClick(R.id.et_sendmessage)
+    public void mEditTextContentClick(View view) {
+        listView.setSelection(listView.getCount() - 1);
+        if (more.getVisibility() == View.VISIBLE) {
+            more.setVisibility(View.GONE);
+            iv_emoticons_normal.setVisibility(View.VISIBLE);
+            iv_emoticons_checked.setVisibility(View.INVISIBLE);
+        }
+    }
+
     @OnClick(R.id.iv_emoticons_checked)
     public void ivEmoticonsCheckedClick(ImageView view) {
         iv_emoticons_normal.setVisibility(View.VISIBLE);
@@ -291,12 +354,42 @@ public class ChatActivity extends ChatFragmentActivity {
 
     @OnClick(R.id.btn_send)
     public void btnSendClick(Button btn) {
-        Toast.makeText(this, btn.getText(), Toast.LENGTH_LONG).show();
+        String s = mEditTextContent.getText().toString();
+        sendText(s);
+    }
+
+    /**
+     * 发送文本消息
+     *
+     * @param content
+     */
+    private void sendText(String content) {
+
+        if (content.length() > 0) {
+            EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
+            // 如果是群聊，设置chattype,默认是单聊
+            if (chatType == CHATTYPE_GROUP)
+                message.setChatType(EMMessage.ChatType.GroupChat);
+            TextMessageBody txtBody = new TextMessageBody(content);
+            // 设置消息body
+            message.addBody(txtBody);
+            // 设置要发给谁,用户username或者群聊groupid
+            message.setReceipt(toChatUsername);
+            // 把messgage加到conversation中
+            conversation.addMessage(message);
+            // 通知adapter有消息变动，adapter会根据加入的这条message显示消息和调用sdk的发送方法
+            adapter.refresh();
+            listView.setSelection(listView.getCount() - 1);
+            mEditTextContent.setText("");
+
+            setResult(RESULT_OK);
+
+        }
     }
 
     @OnClick(R.id.btn_take_picture)
     public void btnTakePictureClick(ImageView image) {
-        Toast.makeText(this, "btn_take_picture", Toast.LENGTH_LONG).show();
+
     }
 
     @OnClick(R.id.btn_picture)
@@ -323,6 +416,27 @@ public class ChatActivity extends ChatFragmentActivity {
     public void btnVoiceCall(ImageView image) {
         Toast.makeText(this, "btn_voice_call", Toast.LENGTH_LONG).show();
     }
+
+    @OnClick(R.id.btn_more)
+    public void btnMoreClick(View view) {
+        if (more.getVisibility() == View.GONE) {
+            System.out.println("more gone");
+            hideKeyboard();
+            more.setVisibility(View.VISIBLE);
+            btnContainer.setVisibility(View.VISIBLE);
+            emojiIconContainer.setVisibility(View.GONE);
+        } else {
+            if (emojiIconContainer.getVisibility() == View.VISIBLE) {
+                emojiIconContainer.setVisibility(View.GONE);
+                btnContainer.setVisibility(View.VISIBLE);
+                iv_emoticons_normal.setVisibility(View.VISIBLE);
+                iv_emoticons_checked.setVisibility(View.INVISIBLE);
+            } else {
+                more.setVisibility(View.GONE);
+            }
+        }
+    }
+
     /**
      * 返回
      *
@@ -331,6 +445,7 @@ public class ChatActivity extends ChatFragmentActivity {
     public void back(View view) {
         finish();
     }
+
     /**
      * 获取表情的gridview的子view
      *
@@ -361,7 +476,7 @@ public class ChatActivity extends ChatFragmentActivity {
                     if (buttonSetModeKeyboard.getVisibility() != View.VISIBLE) {
                         if (filename != "delete_expression") { // 不是删除键，显示表情
                             // 这里用的反射，所以混淆的时候不要混淆SmileUtils这个类
-                            Class clz = Class.forName("com.easemob.chatuidemo.utils.SmileUtils");
+                            Class clz = Class.forName("com.chat.util.SmileUtils");
                             Field field = clz.getField(filename);
                             mEditTextContent.append(SmileUtils.getSmiledText(ChatActivity.this, (String) field.get(null)));
                         } else { // 删除文字或者表情
