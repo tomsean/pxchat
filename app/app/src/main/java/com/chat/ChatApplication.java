@@ -7,19 +7,25 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import com.easemob.EMCallBack;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
+import com.easemob.chatuidemo.DemoHXSDKHelper;
+import com.easemob.chatuidemo.domain.User;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by HQ_19 on 2014/12/2.
  */
 public class ChatApplication extends Application {
     private static ChatApplication instance;
-
+    public static Context applicationContext;
+    public static DemoHXSDKHelper hxSDKHelper = new DemoHXSDKHelper();
+    public static String currentUserNick = "";
     /**
      * Create main application
      */
@@ -39,36 +45,28 @@ public class ChatApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        applicationContext = this;
         instance = this;
-        // Perform injection
-        Injector.init(getRootModule(), this);
-        int pid = android.os.Process.myPid();
-        String processAppName = getAppName(pid);
-        // 如果使用到百度地图或者类似启动remote service的第三方库，这个if判断不能少
-        if (processAppName == null || processAppName.equals("")) {
-            // workaround for baidu location sdk
-            // 百度定位sdk，定位服务运行在一个单独的进程，每次定位服务启动的时候，都会调用application::onCreate
-            // 创建新的进程。
-            // 但环信的sdk只需要在主进程中初始化一次。 这个特殊处理是，如果从pid 找不到对应的processInfo
-            // processName，
-            // 则此application::onCreate 是被service 调用的，直接返回
-            return;
-        }
-        //初始化环信SDK
-        Log.d("DemoApplication", "Initialize EMChat SDK");
-        EMChat.getInstance().init(instance);
-        //获取到EMChatOptions对象
-        EMChatOptions options = EMChatManager.getInstance().getChatOptions();
-        //默认添加好友时，是不需要验证的，改成需要验证
-        options.setAcceptInvitationAlways(false);
-        //设置收到消息是否有新消息通知，默认为true
-        options.setNotificationEnable(false);
-        //设置收到消息是否有声音提示，默认为true
-        options.setNoticeBySound(false);
-        //设置收到消息是否震动 默认为true
-        options.setNoticedByVibrate(false);
-        //设置语音消息播放是否设置为扬声器播放 默认为true
-        options.setUseSpeaker(false);
+
+        /**
+         * this function will initialize the HuanXin SDK
+         *
+         * @return boolean true if caller can continue to call HuanXin related APIs after calling onInit, otherwise false.
+         *
+         * 环信初始化SDK帮助函数
+         * 返回true如果正确初始化，否则false，如果返回为false，请在后续的调用中不要调用任何和环信相关的代码
+         *
+         * for example:
+         * 例子：
+         *
+         * public class DemoHXSDKHelper extends HXSDKHelper
+         *
+         * HXHelper = new DemoHXSDKHelper();
+         * if(HXHelper.onInit(context)){
+         *     // do HuanXin related work
+         * }
+         */
+        hxSDKHelper.onInit(applicationContext);
     }
 
     private Object getRootModule() {
@@ -111,5 +109,67 @@ public class ChatApplication extends Application {
             }
         }
         return processName;
+    }
+    /**
+     * 获取内存中好友user list
+     *
+     * @return
+     */
+    public Map<String, User> getContactList() {
+        return hxSDKHelper.getContactList();
+    }
+
+    /**
+     * 设置好友user list到内存中
+     *
+     * @param contactList
+     */
+    public void setContactList(Map<String, User> contactList) {
+        hxSDKHelper.setContactList(contactList);
+    }
+
+    /**
+     * 获取当前登陆用户名
+     *
+     * @return
+     */
+    public String getUserName() {
+        return hxSDKHelper.getHXId();
+    }
+
+    /**
+     * 获取密码
+     *
+     * @return
+     */
+    public String getPassword() {
+        return hxSDKHelper.getPassword();
+    }
+
+    /**
+     * 设置用户名
+     *
+     * @param username
+     */
+    public void setUserName(String username) {
+        hxSDKHelper.setHXId(username);
+    }
+
+    /**
+     * 设置密码 下面的实例代码 只是demo，实际的应用中需要加password 加密后存入 preference 环信sdk
+     * 内部的自动登录需要的密码，已经加密存储了
+     *
+     * @param pwd
+     */
+    public void setPassword(String pwd) {
+        hxSDKHelper.setPassword(pwd);
+    }
+
+    /**
+     * 退出登录,清空数据
+     */
+    public void logout(final EMCallBack emCallBack) {
+        // 先调用sdk logout，在清理app中自己的数据
+        hxSDKHelper.logout(emCallBack);
     }
 }

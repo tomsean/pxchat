@@ -30,6 +30,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.chat.ChatApplication;
 import com.chat.mobile.R;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
@@ -116,7 +117,7 @@ public class LoginActivity extends BaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
 			if (requestCode == REQUEST_CODE_SETNICK) {
-				DemoApplication.currentUserNick = data.getStringExtra("edittext");
+				ChatApplication.currentUserNick = data.getStringExtra("edittext");
 
 				final String username = usernameEditText.getText().toString();
 				final String password = passwordEditText.getText().toString();
@@ -198,7 +199,7 @@ public class LoginActivity extends BaseActivity {
 								e.printStackTrace();
 							}
 							//更新当前用户的nickname 此方法的作用是在ios离线推送时能够显示用户nick
-							boolean updatenick = EMChatManager.getInstance().updateCurrentUserNick(DemoApplication.currentUserNick);
+							boolean updatenick = EMChatManager.getInstance().updateCurrentUserNick(ChatApplication.currentUserNick);
 							if (!updatenick) {
 								EMLog.e("LoginActivity", "update current user nick fail");
 							}
@@ -225,7 +226,7 @@ public class LoginActivity extends BaseActivity {
 							runOnUiThread(new Runnable() {
 								public void run() {
 									pd.dismiss();
-									Toast.makeText(getApplicationContext(), "登录失败: " + message, 0).show();
+									Toast.makeText(getApplicationContext(), "登录失败: " + message, Toast.LENGTH_SHORT).show();
 
 								}
 							});
