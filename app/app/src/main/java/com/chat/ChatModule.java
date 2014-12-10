@@ -8,7 +8,6 @@ import com.chat.core.PostFromAnyThreadBus;
 import com.chat.core.RestAdapterRequestInterceptor;
 import com.chat.core.RestErrorHandler;
 import com.chat.core.UserAgentProvider;
-import com.chat.ui.ChatActivity;
 import com.chat.ui.MainActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,8 +27,7 @@ import retrofit.converter.GsonConverter;
         complete = false,
         injects = {
                 ChatApplication.class,
-                MainActivity.class,
-                ChatActivity.class
+                MainActivity.class
         }
 )
 public class ChatModule {

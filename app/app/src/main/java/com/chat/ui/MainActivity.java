@@ -72,7 +72,7 @@ public class MainActivity extends ChatFragmentActivity {
             }
         });
         fragments = new ArrayList<Fragment>();
-        fragments.add(new MessageFragment());
+        fragments.add(new WeixinFragment());
         fragments.add(new AddressListFragment());
         fragments.add(new FriendsFragment());
         fragments.add(new SetFragment());
