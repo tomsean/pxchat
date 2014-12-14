@@ -44,7 +44,7 @@ public class MainActivity extends ChatFragmentActivity {
 
     private void init() {
         fragments = new ArrayList<Fragment>();
-        fragments.add(new MessageFragment());
+        fragments.add(new NotificationListFragment());
         fragments.add(new AddressListFragment());
         fragments.add(new FriendsFragment());
         fragments.add(new SetFragment());
