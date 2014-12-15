@@ -10,6 +10,7 @@ import android.util.Log;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
+import com.easemob.chat.EMContactManager;
 
 import java.util.Iterator;
 import java.util.List;
@@ -111,5 +112,14 @@ public class ChatApplication extends Application {
             }
         }
         return processName;
+    }
+
+    /**
+     * 获取当前登陆用户名
+     *
+     * @return
+     */
+    public String getUserName() {
+        return EMChatManager.getInstance().getCurrentUser();
     }
 }

@@ -1,11 +1,16 @@
 package com.chat.ui;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.chat.ChatApplication;
 import com.chat.mobile.R;
 import com.chat.ui.adapter.NotificationListAdapter;
 import com.chat.ui.model.NotificationRowModel;
@@ -31,6 +36,7 @@ public class NotificationListFragment extends Fragment {
     public ListView list;
     private NotificationListAdapter adapter;
     private List<NotificationRowModel> rowModels;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,11 +48,36 @@ public class NotificationListFragment extends Fragment {
             viewGroup.removeAllViewsInLayout();
         }
         ButterKnife.inject(this, view);
-        rowModels=loadConversationsWithRecentChat();
-        adapter=new NotificationListAdapter(getActivity(),1,rowModels);
+        rowModels = loadConversationsWithRecentChat();
+        adapter = new NotificationListAdapter(getActivity(), 1, rowModels);
         list.setAdapter(adapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                NotificationRowModel emContact = adapter.getItem(i);
+                if (adapter.getItem(i).getName().equals(ChatApplication.getInstance().getUserName()))
+                    Toast.makeText(getActivity(), "不能和自己聊天", Toast.LENGTH_SHORT).show();
+                else {
+                    // 进入聊天页面
+                    Intent intent;
+                    if (emContact.isGroup()) {
+                        //it is group chat
+                        intent = new Intent(getActivity(), GroupChatFragment.class);
+                        intent.putExtra("chatType", "group");
+                        intent.putExtra("groupId", (emContact.getEmGroup()).getGroupId());
+                    } else {
+                        //it is single chat
+                        intent = new Intent(getActivity(), SingleChatFragment.class);
+                        intent.putExtra("userId", emContact.getName());
+                    }
+                    startActivity(intent);
+                }
+                Toast.makeText(getActivity(), "i:" + i + ",l" + l, Toast.LENGTH_LONG).show();
+            }
+        });
         return view;
     }
+
     /**
      * 获取所有会话
      *
@@ -98,6 +129,7 @@ public class NotificationListFragment extends Fragment {
         sortMessageRowModelByLastChatTime(list);
         return list;
     }
+
     /**
      * 根据最后一条消息的时间排序
      *

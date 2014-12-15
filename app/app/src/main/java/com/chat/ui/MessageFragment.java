@@ -27,7 +27,6 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 
-
 public class MessageFragment extends SwipeRefreshListFragment {
     private List<MessageRowModel> messageRowModels;
     private MessageAdapter adapter;
