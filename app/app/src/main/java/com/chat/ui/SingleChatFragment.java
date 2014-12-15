@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.chat.mobile.R;
 import com.chat.util.Ln;
@@ -38,6 +39,8 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
     public Button btnMore;
     @InjectView(R.id.btn_send)
     public Button btnSend;
+    @InjectView(R.id.ll_btn_container)
+    public LinearLayout btnContainer;
     private InputMethodManager manager;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,7 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
             }
         });
         if (emojicons != null) {
-            hideEmojicons();
+            getSupportFragmentManager().beginTransaction().hide(emojicons).commit();
         }
     }
 
@@ -81,6 +84,8 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
 
     @OnClick(R.id.iv_emoticons_normal)
     public void emoticonsNormalClick(View view) {
+        hideKeyboard();
+        hideBtnContainer();
         showEmojicons();
         emoticonsChecked.setVisibility(View.VISIBLE);
         emoticonsNormal.setVisibility(View.INVISIBLE);
@@ -88,6 +93,17 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
 
     @OnClick(R.id.iv_emoticons_checked)
     public void emoticonsCheckedClick(View view) {
+        hideBtnContainer();
+        resetEmoticons();
+    }
+
+    private void hideBtnContainer() {
+        if (btnContainer.getVisibility() != View.GONE) {
+            btnContainer.setVisibility(View.GONE);
+        }
+    }
+
+    private void resetEmoticons() {
         hideEmojicons();
         emoticonsNormal.setVisibility(View.VISIBLE);
         emoticonsChecked.setVisibility(View.INVISIBLE);
@@ -95,9 +111,24 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
 
     @OnClick(R.id.et_sendmessage)
     public void sendMessageClick(View view) {
-        emoticonsNormal.setVisibility(View.VISIBLE);
-        emoticonsChecked.setVisibility(View.INVISIBLE);
         hideEmojicons();
+        hideBtnContainer();
+    }
+
+    @OnClick(R.id.btn_send)
+    public void btnSendClick(View view) {
+        Toast.makeText(this, "send", Toast.LENGTH_LONG).show();
+    }
+
+    @OnClick(R.id.btn_more)
+    public void btnMoreClick(View view) {
+        hideKeyboard();
+        resetEmoticons();
+        if (btnContainer.getVisibility() == View.GONE) {
+            btnContainer.setVisibility(View.VISIBLE);
+        } else {
+            btnContainer.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -106,12 +137,15 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
     }
 
     private void showEmojicons() {
-        hideKeyboard();
-        getSupportFragmentManager().beginTransaction().show(emojicons).commit();
+        if (emojicons.isHidden()) {
+            getSupportFragmentManager().beginTransaction().show(emojicons).commit();
+        }
     }
 
     private void hideEmojicons() {
-        getSupportFragmentManager().beginTransaction().hide(emojicons).commit();
+        if (!emojicons.isHidden()) {
+            getSupportFragmentManager().beginTransaction().hide(emojicons).commit();
+        }
     }
 
     /**
