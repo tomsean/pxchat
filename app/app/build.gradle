@@ -42,6 +42,7 @@ dependencies {
     compile 'com.beardedhen:androidbootstrap:1.0.3'
     compile 'com.github.chrisbanes.pulltorefresh:extras:2.1.1'
     compile files('libs/easemobchat_2.1.3.jar')
+    compile 'com.rockerhieu.emojicon:library:1.0'
 }
 repositories {
     maven { url 'https://github.com/donnfelker/mvn-repo/raw/master/' }
