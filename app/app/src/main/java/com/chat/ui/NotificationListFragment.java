@@ -55,7 +55,8 @@ public class NotificationListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 NotificationRowModel emContact = adapter.getItem(i);
-                if (adapter.getItem(i).getName().equals(ChatApplication.getInstance().getUserName()))
+                String userName=ChatApplication.getInstance().getUserName();
+                if (adapter.getItem(i).getName().equals(userName))
                     Toast.makeText(getActivity(), "不能和自己聊天", Toast.LENGTH_SHORT).show();
                 else {
                     // 进入聊天页面
