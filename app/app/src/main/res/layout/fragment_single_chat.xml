@@ -3,14 +3,14 @@
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f2f0eb" >
+    android:background="#f2f0eb">
 
     <RelativeLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_top_bar"
         android:background="@color/top_bar_normal_bg"
-        android:gravity="center_vertical" >
+        android:gravity="center_vertical">
 
         <include layout="@layout/commom_back_btn" />
 
@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:background="@drawable/common_tab_bg"
-            android:onClick="emptyHistory" >
+            android:onClick="emptyHistory">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/common_tab_bg"
             android:onClick="toGroupDetails"
-            android:visibility="gone" >
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
         android:paddingBottom="2dip"
-        android:paddingTop="2dip" >
+        android:paddingTop="2dip">
 
         <View
             android:layout_width="match_parent"
@@ -80,7 +80,7 @@
             android:background="#aaffffff"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingTop="4dp" >
+            android:paddingTop="4dp">
 
             <Button
                 android:id="@+id/btn_set_mode_voice"
@@ -111,7 +111,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/chat_press_speak_btn"
                 android:gravity="center"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -130,7 +130,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
                 android:layout_weight="1"
-                android:gravity="bottom" >
+                android:gravity="bottom">
 
                 <com.rockerhieu.emojicon.EmojiconEditText
                     android:id="@+id/et_sendmessage"
@@ -140,13 +140,12 @@
                     android:background="@null"
                     android:maxLines="3"
                     android:minHeight="40dp"
-                    android:onClick="editClick"
                     android:paddingBottom="3dp"
                     android:paddingLeft="1dp"
                     android:paddingRight="1dp"
                     android:paddingTop="3dp"
-                    android:textSize="18sp"
-                    android:textColor="@color/Black"/>
+                    android:textSize="20sp"
+                    android:textColor="@color/Black" />
 
                 <ImageView
                     android:id="@+id/iv_emoticons_normal"
@@ -194,50 +193,40 @@
                 android:textSize="16sp"
                 android:visibility="gone" />
         </LinearLayout>
+        <!-- 表情图片 -->
+        <fragment
+            android:id="@+id/emojicons"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:visibility="gone"
+            android:name="com.rockerhieu.emojicon.EmojiconsFragment" />
+
+        <!-- 图片，表情，名片等按钮 -->
 
         <LinearLayout
-            android:id="@+id/more"
+            android:id="@+id/ll_btn_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="vertical"
-            android:visibility="gone" >
-
-            <!-- 表情图片 -->
-
-            <fragment
-                android:id="@+id/emojicons"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:visibility="gone"
-                android:name="com.rockerhieu.emojicon.EmojiconsFragment" />
-
-            <!-- 图片，表情，名片等按钮 -->
+            android:visibility="gone">
 
             <LinearLayout
-                android:id="@+id/ll_btn_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone" >
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="6dp"
+                android:weightSum="4">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginTop="6dp"
-                    android:weightSum="4" >
-
-                    <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <RelativeLayout
                         android:layout_width="64dp"
-                        android:layout_height="64dp" >
+                        android:layout_height="64dp">
 
                         <ImageView
                             android:id="@+id/btn_take_picture"
@@ -258,174 +247,174 @@
                         android:textColor="#727171" />
                 </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="64dp"
+                        android:layout_height="64dp">
+
+                        <ImageView
+                            android:id="@+id/btn_picture"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/chat_image_selector"
+                            android:clickable="true"
+                            android:onClick="onClick"
+                            android:scaleType="fitCenter" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:gravity="center"
-                        android:orientation="vertical" >
-
-                        <RelativeLayout
-                            android:layout_width="64dp"
-                            android:layout_height="64dp" >
-
-                            <ImageView
-                                android:id="@+id/btn_picture"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:layout_centerInParent="true"
-                                android:background="@drawable/chat_image_selector"
-                                android:clickable="true"
-                                android:onClick="onClick"
-                                android:scaleType="fitCenter" />
-                        </RelativeLayout>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/attach_picture"
-                            android:textColor="#727171" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical" >
-
-                        <RelativeLayout
-                            android:layout_width="64dp"
-                            android:layout_height="64dp" >
-
-                            <ImageView
-                                android:id="@+id/btn_location"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:layout_centerInParent="true"
-                                android:clickable="true"
-                                android:onClick="onClick"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/chat_location_selector" />
-                        </RelativeLayout>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/attach_location"
-                            android:textColor="#727171" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical" >
-
-                        <RelativeLayout
-                            android:layout_width="64dp"
-                            android:layout_height="64dp" >
-
-                            <ImageView
-                                android:id="@+id/btn_video"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:layout_centerInParent="true"
-                                android:clickable="true"
-                                android:onClick="onClick"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/chat_video_selector" />
-                        </RelativeLayout>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="视频"
-                            android:textColor="#727171" />
-                    </LinearLayout>
+                        android:text="@string/attach_picture"
+                        android:textColor="#727171" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:layout_marginTop="6dp"
-                    android:weightSum="4" >
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <RelativeLayout
+                        android:layout_width="64dp"
+                        android:layout_height="64dp">
+
+                        <ImageView
+                            android:id="@+id/btn_location"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:layout_centerInParent="true"
+                            android:clickable="true"
+                            android:onClick="onClick"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/chat_location_selector" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:gravity="center"
-                        android:orientation="vertical" >
+                        android:text="@string/attach_location"
+                        android:textColor="#727171" />
+                </LinearLayout>
 
-                        <RelativeLayout
-                            android:layout_width="64dp"
-                            android:layout_height="64dp" >
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                            <ImageView
-                                android:id="@+id/btn_file"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:layout_centerInParent="true"
-                                android:background="@drawable/chat_file_selector"
-                                android:clickable="true"
-                                android:onClick="onClick"
-                                android:scaleType="fitCenter" />
-                        </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="64dp"
+                        android:layout_height="64dp">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/attach_file"
-                            android:textColor="#727171" />
-                    </LinearLayout>
+                        <ImageView
+                            android:id="@+id/btn_video"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:layout_centerInParent="true"
+                            android:clickable="true"
+                            android:onClick="onClick"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/chat_video_selector" />
+                    </RelativeLayout>
 
-                    <LinearLayout
-                        android:id="@+id/container_voice_call"
-                        android:layout_width="0dp"
+                    <TextView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:gravity="center"
-                        android:orientation="vertical" >
+                        android:text="视频"
+                        android:textColor="#727171" />
+                </LinearLayout>
+            </LinearLayout>
 
-                        <RelativeLayout
-                            android:layout_width="64dp"
-                            android:layout_height="64dp" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="6dp"
+                android:weightSum="4">
 
-                            <ImageView
-                                android:id="@+id/btn_voice_call"
-                                android:layout_width="56dp"
-                                android:layout_height="56dp"
-                                android:layout_centerInParent="true"
-                                android:background="@drawable/chat_voice_call_selector"
-                                android:clickable="true"
-                                android:onClick="onClick"
-                                android:scaleType="fitCenter" />
-                        </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/attach_voice_call"
-                            android:textColor="#727171" />
-                    </LinearLayout>
+                    <RelativeLayout
+                        android:layout_width="64dp"
+                        android:layout_height="64dp">
+
+                        <ImageView
+                            android:id="@+id/btn_file"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/chat_file_selector"
+                            android:clickable="true"
+                            android:onClick="onClick"
+                            android:scaleType="fitCenter" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/attach_file"
+                        android:textColor="#727171" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/container_voice_call"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="64dp"
+                        android:layout_height="64dp">
+
+                        <ImageView
+                            android:id="@+id/btn_voice_call"
+                            android:layout_width="56dp"
+                            android:layout_height="56dp"
+                            android:layout_centerInParent="true"
+                            android:background="@drawable/chat_voice_call_selector"
+                            android:clickable="true"
+                            android:onClick="onClick"
+                            android:scaleType="fitCenter" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/attach_voice_call"
+                        android:textColor="#727171" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/bar_bottom"
-        android:layout_below="@id/top_bar" >
+        android:layout_below="@id/top_bar">
 
         <ProgressBar
             android:id="@+id/pb_load_more"
@@ -453,7 +442,7 @@
             android:layout_centerInParent="true"
             android:background="@drawable/recording_hint_bg"
             android:padding="10dp"
-            android:visibility="invisible" >
+            android:visibility="invisible">
 
             <ImageView
                 android:id="@+id/mic_image"

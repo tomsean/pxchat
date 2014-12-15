@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -31,25 +33,25 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
     public ImageView emoticonsNormal;
     @InjectView(R.id.iv_emoticons_checked)
     public ImageView emoticonsChecked;
-    @InjectView(R.id.more)
-    public LinearLayout more;
+    @InjectView(R.id.btn_more)
+    public Button btnMore;
+    @InjectView(R.id.btn_send)
+    public Button btnSend;
     private InputMethodManager manager;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_single_chat);
         ButterKnife.inject(this);
-//        if (emojicons != null) {
-//            hideEmojicons();
-//        }
         emojicons = getSupportFragmentManager().findFragmentById(R.id.emojicons);
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 emoticonsNormal.setVisibility(View.VISIBLE);
                 emoticonsChecked.setVisibility(View.INVISIBLE);
-                more.setVisibility(View.INVISIBLE);
+
                 hideEmojicons();
             }
         });
@@ -61,8 +63,13 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                String str = charSequence.toString();
-                Ln.i(charSequence);
+                if (!TextUtils.isEmpty(charSequence)) {
+                    btnMore.setVisibility(View.GONE);
+                    btnSend.setVisibility(View.VISIBLE);
+                } else {
+                    btnMore.setVisibility(View.VISIBLE);
+                    btnSend.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -73,19 +80,22 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
         emoticonsNormal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showEmojicons();
                 emoticonsChecked.setVisibility(View.VISIBLE);
                 emoticonsNormal.setVisibility(View.INVISIBLE);
-                showEmojicons();
             }
         });
         emoticonsChecked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideEmojicons();
                 emoticonsNormal.setVisibility(View.VISIBLE);
                 emoticonsChecked.setVisibility(View.INVISIBLE);
-                hideEmojicons();
             }
         });
+        if (emojicons != null) {
+            hideEmojicons();
+        }
     }
 
     @Override
@@ -100,12 +110,10 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
 
     private void showEmojicons() {
         hideKeyboard();
-        more.setVisibility(View.VISIBLE);
         getSupportFragmentManager().beginTransaction().show(emojicons).commit();
     }
 
     private void hideEmojicons() {
-        more.setVisibility(View.INVISIBLE);
         getSupportFragmentManager().beginTransaction().hide(emojicons).commit();
     }
 

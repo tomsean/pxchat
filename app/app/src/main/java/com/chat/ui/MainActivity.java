@@ -11,6 +11,8 @@ import android.view.View;
 import com.beardedhen.androidbootstrap.FontAwesomeText;
 import com.chat.ChatServiceProvider;
 import com.chat.mobile.R;
+import com.easemob.EMCallBack;
+import com.easemob.chat.EMChatManager;
 
 import java.util.ArrayList;
 
@@ -44,6 +46,32 @@ public class MainActivity extends ChatFragmentActivity {
     }
 
     private void init() {
+        EMChatManager.getInstance().login("tommy123456", "tommy123456", new EMCallBack() {
+
+            @Override
+            public void onSuccess() {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onError(int code, String message) {
+               /* new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            // 调用sdk注册方法
+                            EMChatManager.getInstance().createAccountOnServer("tommy123456", "tommy123456");
+                        } catch (final Exception e) {
+                        }
+                    }
+                }).start();*/
+                // TODO Auto-generated method stub
+            }
+        });
         fragments = new ArrayList<Fragment>();
         fragments.add(new NotificationListFragment());
         fragments.add(new AddressListFragment());

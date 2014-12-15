@@ -14,6 +14,7 @@ import com.chat.ChatApplication;
 import com.chat.mobile.R;
 import com.chat.ui.adapter.NotificationListAdapter;
 import com.chat.ui.model.NotificationRowModel;
+import com.chat.util.Ln;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
@@ -73,7 +74,6 @@ public class NotificationListFragment extends Fragment {
                     }
                     startActivity(intent);
                 }
-                Toast.makeText(getActivity(), "i:" + i + ",l" + l, Toast.LENGTH_LONG).show();
             }
         });
         return view;
