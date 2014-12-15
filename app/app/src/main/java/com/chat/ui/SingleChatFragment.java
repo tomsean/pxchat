@@ -24,6 +24,7 @@ import com.rockerhieu.emojicon.emoji.Emojicon;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class SingleChatFragment extends FragmentActivity implements EmojiconGridFragment.OnEmojiconClickedListener, EmojiconsFragment.OnEmojiconBackspaceClickedListener {
     @InjectView(R.id.et_sendmessage)
@@ -46,15 +47,6 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
         emojicons = getSupportFragmentManager().findFragmentById(R.id.emojicons);
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        sendMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                emoticonsNormal.setVisibility(View.VISIBLE);
-                emoticonsChecked.setVisibility(View.INVISIBLE);
-
-                hideEmojicons();
-            }
-        });
         sendMessage.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -77,22 +69,6 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
 
             }
         });
-        emoticonsNormal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showEmojicons();
-                emoticonsChecked.setVisibility(View.VISIBLE);
-                emoticonsNormal.setVisibility(View.INVISIBLE);
-            }
-        });
-        emoticonsChecked.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                hideEmojicons();
-                emoticonsNormal.setVisibility(View.VISIBLE);
-                emoticonsChecked.setVisibility(View.INVISIBLE);
-            }
-        });
         if (emojicons != null) {
             hideEmojicons();
         }
@@ -101,6 +77,27 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
     @Override
     public void onEmojiconClicked(Emojicon emojicon) {
         EmojiconsFragment.input(sendMessage, emojicon);
+    }
+
+    @OnClick(R.id.iv_emoticons_normal)
+    public void emoticonsNormalClick(View view) {
+        showEmojicons();
+        emoticonsChecked.setVisibility(View.VISIBLE);
+        emoticonsNormal.setVisibility(View.INVISIBLE);
+    }
+
+    @OnClick(R.id.iv_emoticons_checked)
+    public void emoticonsCheckedClick(View view) {
+        hideEmojicons();
+        emoticonsNormal.setVisibility(View.VISIBLE);
+        emoticonsChecked.setVisibility(View.INVISIBLE);
+    }
+
+    @OnClick(R.id.et_sendmessage)
+    public void sendMessageClick(View view) {
+        emoticonsNormal.setVisibility(View.VISIBLE);
+        emoticonsChecked.setVisibility(View.INVISIBLE);
+        hideEmojicons();
     }
 
     @Override
