@@ -8,16 +8,23 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chat.mobile.R;
+import com.chat.ui.adapter.SingleChatMessageAdapter;
 import com.chat.util.Ln;
+import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMConversation;
 import com.rockerhieu.emojicon.EmojiconEditText;
 import com.rockerhieu.emojicon.EmojiconGridFragment;
 import com.rockerhieu.emojicon.EmojiconsFragment;
@@ -41,7 +48,12 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
     public Button btnSend;
     @InjectView(R.id.ll_btn_container)
     public LinearLayout btnContainer;
+    @InjectView(R.id.list)
+    public ListView listView;
     private InputMethodManager manager;
+    private String toChatUsername;
+    private EMConversation conversation;
+    private SingleChatMessageAdapter adapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +87,32 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
         if (emojicons != null) {
             getSupportFragmentManager().beginTransaction().hide(emojicons).commit();
         }
+        setUpView();
+    }
+
+    private void setUpView() {
+        toChatUsername = getIntent().getStringExtra("userId");
+        ((TextView) findViewById(R.id.name)).setText(toChatUsername);
+        conversation = EMChatManager.getInstance().getConversation(toChatUsername);
+        // 把此会话的未读数置为0
+        conversation.resetUnreadMsgCount();
+        adapter = new SingleChatMessageAdapter(this, toChatUsername);
+        // 显示消息
+        listView.setAdapter(adapter);
+        listView.setOnScrollListener(new ListScrollListener());
+        int count = listView.getCount();
+        if (count > 0) {
+            listView.setSelection(count - 1);
+        }
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard();
+                resetEmoticons();
+                hideBtnContainer();
+                return false;
+            }
+        });
     }
 
     @Override
@@ -160,5 +198,22 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
 
     public void back(View view) {
         finish();
+    }
+
+    /**
+     * listview滑动监听listener
+     */
+    private class ListScrollListener implements AbsListView.OnScrollListener {
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+        }
+
     }
 }
