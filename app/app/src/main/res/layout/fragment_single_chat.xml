@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#f2f0eb">
+                xmlns:emojicon="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/root_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#f2f0eb">
 
     <RelativeLayout
         android:id="@+id/top_bar"
@@ -144,8 +145,9 @@
                     android:paddingLeft="1dp"
                     android:paddingRight="1dp"
                     android:paddingTop="3dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/Black" />
+                    android:textColor="@color/Black"
+                    android:textSize="15sp"
+                    emojicon:emojiconSize="28sp"/>
 
                 <ImageView
                     android:id="@+id/iv_emoticons_normal"

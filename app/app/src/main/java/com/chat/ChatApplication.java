@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.util.Log;
 
 import com.chat.core.ChatService;
+import com.chat.mobile.R;
+import com.chat.ui.SingleChatFragment;
 import com.chat.ui.model.User;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
@@ -67,43 +69,48 @@ public class ChatApplication extends Application {
         EMChat.getInstance().init(instance);
         //获取到EMChatOptions对象
         EMChatOptions options = EMChatManager.getInstance().getChatOptions();
-        /*options.setOnNotificationClickListener(new OnNotificationClickListener() {
+        options.setOnNotificationClickListener(new OnNotificationClickListener() {
             @Override
             public Intent onNotificationClick(EMMessage message) {
-                return null;
+                Intent intent = new Intent(getApplicationContext(), SingleChatFragment.class);
+                EMMessage.ChatType chatType = message.getChatType();
+                if (chatType == EMMessage.ChatType.Chat) { //单聊信息
+                    intent.putExtra("userId", message.getFrom());
+                } else { //群聊信息
+                    //message.getTo()为群聊id
+                    intent.putExtra("groupId", message.getTo());
+                }
+                return intent;
             }
-        });*/
-       /* options.setNotifyText(new OnMessageNotifyListener() {
+        });
+        options.setNotifyText(new OnMessageNotifyListener() {
             @Override
             public String onNewMessageNotify(EMMessage message) {
                 return "新消息内容";
             }
 
             @Override
-            public String onLatestMessageNotify(EMMessage message, int i, int i2) {
-                return "最后一条信息内容";
+            public String onLatestMessageNotify(EMMessage message, int fromUsersNum, int messageNum) {
+                return "你收到了" + messageNum + "条新消息";
             }
 
             @Override
             public String onSetNotificationTitle(EMMessage message) {
-                return "标题";
+                return "老乡村";
             }
 
             @Override
             public int onSetSmallIcon(EMMessage message) {
-                return 0;
+                return R.drawable.ee_1;
             }
-        });*/
-        //默认添加好友时，是不需要验证的，改成需要验证
+        });
+        options.setNotifyBySoundAndVibrate(true); //默认为true 开启新消息提醒
+        options.setNoticeBySound(true); //默认为true 开启声音提醒
+        options.setNoticedByVibrate(true); //默认为true 开启震动提醒
+        options.setUseSpeaker(true); //默认为true 开启扬声器播放
+        options.setShowNotificationInBackgroud(true); //默认为true
         options.setAcceptInvitationAlways(false);
-        //设置收到消息是否有新消息通知，默认为true
-        options.setNotificationEnable(false);
-        //设置收到消息是否有声音提示，默认为true
-        options.setNoticeBySound(false);
-        //设置收到消息是否震动 默认为true
-        options.setNoticedByVibrate(false);
-        //设置语音消息播放是否设置为扬声器播放 默认为true
-        options.setUseSpeaker(false);
+        //默认添加好友时为true，是不需要验证的，改成需要验证为false)
     }
 
     private Object getRootModule() {
