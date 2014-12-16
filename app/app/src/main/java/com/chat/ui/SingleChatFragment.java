@@ -23,8 +23,11 @@ import android.widget.Toast;
 import com.chat.mobile.R;
 import com.chat.ui.adapter.SingleChatMessageAdapter;
 import com.chat.util.Ln;
+import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
+import com.easemob.chat.EMMessage;
+import com.easemob.chat.TextMessageBody;
 import com.rockerhieu.emojicon.EmojiconEditText;
 import com.rockerhieu.emojicon.EmojiconGridFragment;
 import com.rockerhieu.emojicon.EmojiconsFragment;
@@ -155,6 +158,40 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
 
     @OnClick(R.id.btn_send)
     public void btnSendClick(View view) {
+        String content = sendMessage.getText().toString();
+        if (content.length() > 0) {
+            EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
+            TextMessageBody txtBody = new TextMessageBody(content);
+            // 设置消息body
+            message.addBody(txtBody);
+            // 设置要发给谁,用户username或者群聊groupid
+            message.setReceipt(toChatUsername);
+            // 把messgage加到conversation中
+            conversation.addMessage(message);
+            // 通知adapter有消息变动，adapter会根据加入的这条message显示消息和调用sdk的发送方法
+            adapter.refresh();
+            listView.setSelection(listView.getCount() - 1);
+            sendMessage.setText("");
+             //发送消息
+            EMChatManager.getInstance().sendMessage(message, new EMCallBack() {
+                @Override
+                public void onSuccess() {
+                    Ln.i("发送成功");
+                }
+
+                @Override
+                public void onError(int i, String s) {
+                    Ln.i("发送失败");
+                }
+
+                @Override
+                public void onProgress(int i, String s) {
+                    Ln.i("发送中");
+                }
+            });
+            setResult(RESULT_OK);
+
+        }
         Toast.makeText(this, "send", Toast.LENGTH_LONG).show();
     }
 

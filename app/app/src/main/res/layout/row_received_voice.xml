@@ -37,7 +37,7 @@
             android:clickable="true"
             android:src="@drawable/chatfrom_voice_playing" />
 
-        <TextView
+        <com.rockerhieu.emojicon.EmojiconTextView
             android:id="@+id/tv_length"
             style="@style/chat_text_name_style"
             android:layout_width="wrap_content"

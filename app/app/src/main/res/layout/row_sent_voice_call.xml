@@ -43,7 +43,7 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/chat_voice_call_self" />
 
-            <TextView
+            <com.rockerhieu.emojicon.EmojiconTextView
                 android:id="@+id/tv_chatcontent"
                 style="@style/chat_content_date_style"
                 android:layout_width="wrap_content"

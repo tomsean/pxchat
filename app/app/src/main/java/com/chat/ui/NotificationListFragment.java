@@ -109,7 +109,7 @@ public class NotificationListFragment extends Fragment {
         //test
         if (list.size() == 0) {
             NotificationRowModel messageRow = new NotificationRowModel();
-            messageRow.setName("123");
+            messageRow.setName("tommy1234567");
             messageRow.setMsgCount(1);
             messageRow.setUnreadMsgCount(1);
             EMMessage message = EMMessage.createReceiveMessage(EMMessage.Type.TXT);
@@ -120,7 +120,7 @@ public class NotificationListFragment extends Fragment {
             message.addBody(txtBody);
             //设置接收人
             try {
-                message.setReceipt("456");
+                message.setReceipt("tommy1234567");
                 messageRow.setLastMessage(message);
             } catch (Exception ex) {
                 ex.printStackTrace();

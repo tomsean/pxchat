@@ -1,6 +1,7 @@
 package com.chat.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,8 +21,8 @@ public class SetFragment extends Fragment {
         if (v == null) {
             v = inflater.inflate(R.layout.fragment_me, container, false);
         }
-        ViewGroup viewGroup=(ViewGroup) v.getParent();
-        if (viewGroup!=null) {
+        ViewGroup viewGroup = (ViewGroup) v.getParent();
+        if (viewGroup != null) {
             viewGroup.removeAllViewsInLayout();
         }
         context = getActivity();
@@ -32,6 +33,17 @@ public class SetFragment extends Fragment {
 
     private void initView() {
         // TODO Auto-generated method stub
+        View title = v.findViewById(R.id.title);
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent intent = new Intent(getActivity(), LoginFragment.class);
+                    startActivity(intent);
+                } catch (Exception ex) {
 
+                }
+            }
+        });
     }
 }

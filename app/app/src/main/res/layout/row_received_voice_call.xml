@@ -44,7 +44,7 @@
                 android:src="@drawable/chat_voice_call_receive" 
                  />
 
-            <TextView
+            <com.rockerhieu.emojicon.EmojiconTextView
                 android:layout_toRightOf="@id/iv_call_icon"
                 android:id="@+id/tv_chatcontent"
                 android:layout_width="wrap_content"

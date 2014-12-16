@@ -58,7 +58,7 @@
                 android:layout_height="28dp"
                 android:visibility="visible" />
 
-            <TextView
+            <com.rockerhieu.emojicon.EmojiconTextView
                 android:id="@+id/percentage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

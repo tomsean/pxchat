@@ -10,6 +10,7 @@
         android:layout_gravity="center_horizontal"
         android:text="设置"
         android:textColor="@android:color/black"
-        android:textSize="23sp" />
+        android:textSize="23sp"
+        android:id="@+id/title"/>
 
 </LinearLayout>
