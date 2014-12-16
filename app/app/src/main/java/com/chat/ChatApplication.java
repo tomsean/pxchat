@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
+import com.chat.core.ChatService;
+import com.chat.ui.model.User;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
@@ -14,6 +16,7 @@ import com.easemob.chat.EMContactManager;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by HQ_19 on 2014/12/2.

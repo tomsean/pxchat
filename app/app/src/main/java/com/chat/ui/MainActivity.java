@@ -48,7 +48,7 @@ public class MainActivity extends ChatFragmentActivity {
     private void init() {
         fragments = new ArrayList<Fragment>();
         fragments.add(new NotificationListFragment());
-        fragments.add(new AddressListFragment());
+        fragments.add(new ContactlistFragment());
         fragments.add(new FriendsFragment());
         fragments.add(new SetFragment());
         tabBtns = new FontAwesomeText[]{img_main, img_contacts, img_detection, img_me};
