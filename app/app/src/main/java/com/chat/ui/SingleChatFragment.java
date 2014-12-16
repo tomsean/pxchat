@@ -1,6 +1,9 @@
 package com.chat.ui;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -116,6 +119,10 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
                 return false;
             }
         });
+        NewMessageBroadcastReceiver msgReceiver = new NewMessageBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
+        intentFilter.setPriority(3);
+        registerReceiver(msgReceiver, intentFilter);
     }
 
     @Override
@@ -172,27 +179,8 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
             adapter.refresh();
             listView.setSelection(listView.getCount() - 1);
             sendMessage.setText("");
-             //发送消息
-            EMChatManager.getInstance().sendMessage(message, new EMCallBack() {
-                @Override
-                public void onSuccess() {
-                    Ln.i("发送成功");
-                }
-
-                @Override
-                public void onError(int i, String s) {
-                    Ln.i("发送失败");
-                }
-
-                @Override
-                public void onProgress(int i, String s) {
-                    Ln.i("发送中");
-                }
-            });
             setResult(RESULT_OK);
-
         }
-        Toast.makeText(this, "send", Toast.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.btn_more)
@@ -252,5 +240,21 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
 
         }
 
+    }
+
+    private class NewMessageBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //消息id
+            String msgId = intent.getStringExtra("msgid");
+            //发消息的人的username(userid)
+            String msgFrom = intent.getStringExtra("from");
+            //消息类型，文本，图片，语音消息等,这里返回的值为msg.type.ordinal()。
+            //所以消息type实际为是enum类型
+            int msgType = intent.getIntExtra("type", 0);
+            Ln.d("main", "new message id:" + msgId + " from:" + msgFrom + " type:" + msgType);
+            //更方便的方法是通过msgId直接获取整个message
+            EMMessage message = EMChatManager.getInstance().getMessage(msgId);
+        }
     }
 }

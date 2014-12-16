@@ -11,10 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chat.core.Constants;
 import com.chat.mobile.R;
 import com.chat.util.SmileUtils;
+import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMMessage;
@@ -546,7 +548,28 @@ public class SingleChatMessageAdapter extends BaseAdapter {
      * @param holder
      */
     public void sendMsgInBackground(final EMMessage message, final ViewHolder holder) {
+        holder.staus_iv.setVisibility(View.GONE);
+        holder.pb.setVisibility(View.VISIBLE);
 
+        final long start = System.currentTimeMillis();
+        // 调用sdk发送异步发送方法
+        EMChatManager.getInstance().sendMessage(message, new EMCallBack() {
+
+            @Override
+            public void onSuccess() {
+                updateSendedView(message, holder);
+            }
+
+            @Override
+            public void onError(int code, String error) {
+                updateSendedView(message, holder);
+            }
+
+            @Override
+            public void onProgress(int progress, String status) {
+            }
+
+        });
     }
 
     /*
@@ -571,7 +594,23 @@ public class SingleChatMessageAdapter extends BaseAdapter {
      * @param holder
      */
     private void updateSendedView(final EMMessage message, final ViewHolder holder) {
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                // send success
+                if (message.getType() == EMMessage.Type.VIDEO) {
+                    holder.tv.setVisibility(View.GONE);
+                }
+                if (message.status == EMMessage.Status.SUCCESS) {
 
+                } else if (message.status == EMMessage.Status.FAIL) {
+                    Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), 0)
+                            .show();
+                }
+
+                notifyDataSetChanged();
+            }
+        });
     }
 
     /**
