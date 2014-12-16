@@ -18,6 +18,7 @@ import com.easemob.chat.EMMessage;
 import com.easemob.chat.ImageMessageBody;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.util.DateUtils;
+import com.rockerhieu.emojicon.EmojiconTextView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,7 +45,7 @@ public class NotificationListAdapter extends ArrayAdapter<NotificationRowModel> 
             holder = new ViewHolder();
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.unreadLabel = (TextView) convertView.findViewById(R.id.unread_msg_number);
-            holder.message = (TextView) convertView.findViewById(R.id.message);
+            holder.message = (EmojiconTextView) convertView.findViewById(R.id.message);
             holder.time = (TextView) convertView.findViewById(R.id.time);
             holder.avatar = (ImageView) convertView.findViewById(R.id.avatar);
             holder.msgState = convertView.findViewById(R.id.msg_state);
@@ -92,7 +93,7 @@ public class NotificationListAdapter extends ArrayAdapter<NotificationRowModel> 
             // 把最后一条消息的内容作为item的message内容
             EMMessage lastMessage = rowModel.getLastMessage();
             if (lastMessage != null) {
-                holder.message.setText(SmileUtils.getSmiledText(getContext(), getMessageDigest(lastMessage, (this.getContext()))),
+                holder.message.setText(getMessageDigest(lastMessage, (this.getContext())),
                         TextView.BufferType.SPANNABLE);
                 holder.time.setText(DateUtils.getTimestampString(new Date(lastMessage.getMsgTime())));
                 if (lastMessage.direct == EMMessage.Direct.SEND && lastMessage.status == EMMessage.Status.FAIL) {
@@ -117,7 +118,7 @@ public class NotificationListAdapter extends ArrayAdapter<NotificationRowModel> 
         /**
          * 最后一条消息的内容
          */
-        TextView message;
+        EmojiconTextView message;
         /**
          * 最后一条消息的时间
          */

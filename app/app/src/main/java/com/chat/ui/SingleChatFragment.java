@@ -255,6 +255,7 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
             Ln.d("main", "new message id:" + msgId + " from:" + msgFrom + " type:" + msgType);
             //更方便的方法是通过msgId直接获取整个message
             EMMessage message = EMChatManager.getInstance().getMessage(msgId);
+            adapter.refresh();
         }
     }
 }
