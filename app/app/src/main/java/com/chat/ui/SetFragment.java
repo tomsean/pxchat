@@ -7,8 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.chat.mobile.R;
+import com.easemob.chat.EMChatManager;
 
 public class SetFragment extends Fragment {
     private Context context;
@@ -26,14 +28,20 @@ public class SetFragment extends Fragment {
             viewGroup.removeAllViewsInLayout();
         }
         context = getActivity();
+
         initView();
         return v;
 
     }
-
     private void initView() {
         // TODO Auto-generated method stub
-        View title = v.findViewById(R.id.title);
+        TextView title = (TextView) v.findViewById(R.id.title);
+        try {
+            String userName = EMChatManager.getInstance().getCurrentUser();
+            title.setText(userName);
+        } catch (Exception ex) {
+
+        }
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

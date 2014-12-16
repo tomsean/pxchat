@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Instrumentation;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
@@ -13,6 +14,9 @@ import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
 import com.easemob.chat.EMContactManager;
+import com.easemob.chat.EMMessage;
+import com.easemob.chat.OnMessageNotifyListener;
+import com.easemob.chat.OnNotificationClickListener;
 
 import java.util.Iterator;
 import java.util.List;
@@ -63,6 +67,33 @@ public class ChatApplication extends Application {
         EMChat.getInstance().init(instance);
         //获取到EMChatOptions对象
         EMChatOptions options = EMChatManager.getInstance().getChatOptions();
+        /*options.setOnNotificationClickListener(new OnNotificationClickListener() {
+            @Override
+            public Intent onNotificationClick(EMMessage message) {
+                return null;
+            }
+        });*/
+       /* options.setNotifyText(new OnMessageNotifyListener() {
+            @Override
+            public String onNewMessageNotify(EMMessage message) {
+                return "新消息内容";
+            }
+
+            @Override
+            public String onLatestMessageNotify(EMMessage message, int i, int i2) {
+                return "最后一条信息内容";
+            }
+
+            @Override
+            public String onSetNotificationTitle(EMMessage message) {
+                return "标题";
+            }
+
+            @Override
+            public int onSetSmallIcon(EMMessage message) {
+                return 0;
+            }
+        });*/
         //默认添加好友时，是不需要验证的，改成需要验证
         options.setAcceptInvitationAlways(false);
         //设置收到消息是否有新消息通知，默认为true
