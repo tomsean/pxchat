@@ -3,8 +3,10 @@ package com.chat;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Instrumentation;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.util.Log;
 
@@ -12,6 +14,7 @@ import com.chat.core.ChatService;
 import com.chat.mobile.R;
 import com.chat.ui.SingleChatFragment;
 import com.chat.ui.model.User;
+import com.easemob.chat.CmdMessageBody;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
@@ -109,8 +112,15 @@ public class ChatApplication extends Application {
         options.setNoticedByVibrate(true); //默认为true 开启震动提醒
         options.setUseSpeaker(true); //默认为true 开启扬声器播放
         options.setShowNotificationInBackgroud(true); //默认为true
-        options.setAcceptInvitationAlways(false);
+        options.setAcceptInvitationAlways(true);
         //默认添加好友时为true，是不需要验证的，改成需要验证为false)
+        options.setUseRoster(true);
+        options.setAutoConversatonsLoaded(true);
+
+        /**
+         * cmd消息BroadcastReceiver
+         */
+
     }
 
     private Object getRootModule() {
@@ -163,4 +173,23 @@ public class ChatApplication extends Application {
     public String getUserName() {
         return EMChatManager.getInstance().getCurrentUser();
     }
+    private BroadcastReceiver cmdMessageReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i("huanxin测试","come in");
+            //获取cmd message对象
+            String msgId = intent.getStringExtra("msgid");
+            EMMessage message = intent.getParcelableExtra("message");
+            //获取消息body
+            CmdMessageBody cmdMsgBody = (CmdMessageBody) message.getBody();
+            String aciton = cmdMsgBody.action;//获取自定义action
+            //获取扩展属性
+            try {
+                String attr=message.getStringAttribute("a");
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+        }
+    };
 }

@@ -1,9 +1,14 @@
 package com.chat.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +17,9 @@ import com.beardedhen.androidbootstrap.FontAwesomeText;
 import com.chat.ChatServiceProvider;
 import com.chat.mobile.R;
 import com.easemob.EMCallBack;
+import com.easemob.chat.CmdMessageBody;
 import com.easemob.chat.EMChatManager;
+import com.easemob.chat.EMMessage;
 
 import java.util.ArrayList;
 
@@ -54,6 +61,10 @@ public class MainActivity extends ChatFragmentActivity {
         tabBtns = new FontAwesomeText[]{img_main, img_contacts, img_detection, img_me};
         tabPager.setAdapter(pageAdapter);
         tabPager.setOnPageChangeListener(onPageChangeListener);
+        // 注册一个cmd消息的BroadcastReceiver
+        IntentFilter cmdIntentFilter = new IntentFilter(EMChatManager.getInstance().getCmdMessageBroadcastAction());
+        this.registerReceiver(cmdMessageReceiver, cmdIntentFilter);
+
     }
 
     @Override
@@ -143,4 +154,23 @@ public class MainActivity extends ChatFragmentActivity {
         ;
         tabPager.setCurrentItem(index, true);
     }
+    private BroadcastReceiver cmdMessageReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i("huanxin测试", "come in");
+            //获取cmd message对象
+            String msgId = intent.getStringExtra("msgid");
+            EMMessage message = intent.getParcelableExtra("message");
+            //获取消息body
+            CmdMessageBody cmdMsgBody = (CmdMessageBody) message.getBody();
+            String aciton = cmdMsgBody.action;//获取自定义action
+            //获取扩展属性
+            try {
+                String attr=message.getStringAttribute("a");
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+        }
+    };
 }

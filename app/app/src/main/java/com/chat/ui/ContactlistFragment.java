@@ -50,39 +50,6 @@ public class ContactlistFragment extends Fragment {
         context = getActivity();
         ButterKnife.inject(this, view);
         initView();
-        EMContactManager.getInstance().setContactListener(new EMContactListener() {
-
-            @Override
-            public void onContactAgreed(String username) {
-                Toast.makeText(getActivity(), "onContactAgreed " + username, Toast.LENGTH_LONG).show();
-                //好友请求被同意
-            }
-
-            @Override
-            public void onContactRefused(String username) {
-                Toast.makeText(getActivity(), "onContactRefused " + username, Toast.LENGTH_LONG).show();
-                //好友请求被拒绝
-            }
-
-            @Override
-            public void onContactInvited(String username, String reason) {
-                Toast.makeText(getActivity(), "onContactInvited " + username, Toast.LENGTH_LONG).show();
-                //收到好友邀请
-            }
-
-            @Override
-            public void onContactDeleted(List<String> usernameList) {
-                Toast.makeText(getActivity(), "onContactDeleted", Toast.LENGTH_LONG).show();
-                //被删除时回调此方法
-            }
-
-
-            @Override
-            public void onContactAdded(List<String> usernameList) {
-                Toast.makeText(getActivity(), "onContactAdded", Toast.LENGTH_LONG).show();
-                //增加了联系人时回调此方法
-            }
-        });
         return view;
     }
 
@@ -94,7 +61,9 @@ public class ContactlistFragment extends Fragment {
         try {
             usernames = EMContactManager.getInstance().getContactUserNames();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            if (ex!=null){
+                ex.printStackTrace();
+            }
             usernames = new ArrayList<String>();
         }
         if (usernames.size() == 0) {

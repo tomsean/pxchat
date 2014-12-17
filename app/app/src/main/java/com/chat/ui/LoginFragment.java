@@ -43,7 +43,7 @@ public class LoginFragment extends FragmentActivity {
             @Override
             public void onSuccess() {
                 // TODO Auto-generated method stub
-                try {
+                /*try {
                     if (userName.getText().toString() == "tommy123456") {
                         EMContactManager.getInstance().addContact("tommy654321", "sadf");
                     } else {
@@ -51,7 +51,7 @@ public class LoginFragment extends FragmentActivity {
                     }
                 } catch (EaseMobException e) {
                     e.printStackTrace();
-                }
+                }*/
             }
 
             @Override
