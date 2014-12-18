@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.chat.core.Constants;
 import com.chat.mobile.R;
 import com.chat.ui.model.NotificationRowModel;
@@ -19,6 +20,7 @@ import com.easemob.chat.ImageMessageBody;
 import com.easemob.chat.TextMessageBody;
 import com.easemob.util.DateUtils;
 import com.rockerhieu.emojicon.EmojiconTextView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,7 +73,12 @@ public class NotificationListAdapter extends ArrayAdapter<NotificationRowModel> 
             holder.name.setText(contact.getNick() != null ? contact.getNick() : username);
         } else {
             // 本地或者服务器获取用户详情，以用来显示头像和nick
-            holder.avatar.setImageResource(R.drawable.default_avatar);
+            Picasso p = Picasso.with(getContext());
+
+            p.setIndicatorsEnabled(true);
+            p.load("http://f.hiphotos.baidu.com/image/pic/item/cdbf6c81800a19d8a1d53c0c31fa828ba71e46e0.jpg")
+                    .error(R.drawable.default_avatar).resize(45, 45).into(holder.avatar);
+            //holder.avatar.setImageResource(R.drawable.default_avatar);
             if (username.equals(Constants.Easemob.GROUP_USERNAME)) {
                 holder.name.setText("群聊");
 

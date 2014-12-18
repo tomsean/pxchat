@@ -14,10 +14,12 @@ import com.chat.core.ChatService;
 import com.chat.mobile.R;
 import com.chat.ui.SingleChatFragment;
 import com.chat.ui.model.User;
+import com.chat.util.Ln;
 import com.easemob.chat.CmdMessageBody;
 import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
+import com.easemob.chat.EMContactListener;
 import com.easemob.chat.EMContactManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.OnMessageNotifyListener;
@@ -116,11 +118,44 @@ public class ChatApplication extends Application {
         //默认添加好友时为true，是不需要验证的，改成需要验证为false)
         options.setUseRoster(true);
         options.setAutoConversatonsLoaded(true);
-
+        EMChat.getInstance().setAutoLogin(true);
+        EMChat.getInstance().setAppInited();
         /**
          * cmd消息BroadcastReceiver
          */
+        /*EMContactManager.getInstance().setContactListener(new EMContactListener() {
 
+            @Override
+            public void onContactAgreed(String username) {
+                Ln.i("onContactAgreed");
+                //好友请求被同意
+            }
+
+            @Override
+            public void onContactRefused(String username) {
+                Ln.i("onContactRefused");
+                //好友请求被拒绝
+            }
+
+            @Override
+            public void onContactInvited(String username, String reason) {
+                Ln.i("onContactInvited");
+                //收到好友邀请
+            }
+
+            @Override
+            public void onContactDeleted(List<String> usernameList) {
+                Ln.i("onContactDeleted");
+                //被删除时回调此方法
+            }
+
+
+            @Override
+            public void onContactAdded(List<String> usernameList) {
+                Ln.i("onContactAdded");
+                //增加了联系人时回调此方法
+            }
+        });*/
     }
 
     private Object getRootModule() {
@@ -173,11 +208,12 @@ public class ChatApplication extends Application {
     public String getUserName() {
         return EMChatManager.getInstance().getCurrentUser();
     }
+
     private BroadcastReceiver cmdMessageReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i("huanxin测试","come in");
+            Log.i("huanxin测试", "come in");
             //获取cmd message对象
             String msgId = intent.getStringExtra("msgid");
             EMMessage message = intent.getParcelableExtra("message");
@@ -186,8 +222,8 @@ public class ChatApplication extends Application {
             String aciton = cmdMsgBody.action;//获取自定义action
             //获取扩展属性
             try {
-                String attr=message.getStringAttribute("a");
-            }catch (Exception ex){
+                String attr = message.getStringAttribute("a");
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }

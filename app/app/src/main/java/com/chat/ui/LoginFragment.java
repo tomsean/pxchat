@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.chat.mobile.R;
@@ -13,6 +14,7 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMContactManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.exceptions.EaseMobException;
+import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -29,6 +31,14 @@ public class LoginFragment extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_login);
+        ImageView imgTest = (ImageView)findViewById(R.id.img_test);
+        try {
+            Picasso.with(this)
+                    .load("http://f.hiphotos.baidu.com/image/pic/item/cdbf6c81800a19d8a1d53c0c31fa828ba71e46e0.jpg")
+                    .error(R.drawable.ee_1).into(imgTest);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         ButterKnife.inject(this);
         content = this;
     }

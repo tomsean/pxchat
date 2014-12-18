@@ -18,6 +18,7 @@ import com.chat.ChatServiceProvider;
 import com.chat.mobile.R;
 import com.easemob.EMCallBack;
 import com.easemob.chat.CmdMessageBody;
+import com.easemob.chat.EMChat;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 
@@ -48,7 +49,7 @@ public class MainActivity extends ChatFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         init();
     }
 
@@ -63,8 +64,7 @@ public class MainActivity extends ChatFragmentActivity {
         tabPager.setOnPageChangeListener(onPageChangeListener);
         // 注册一个cmd消息的BroadcastReceiver
         IntentFilter cmdIntentFilter = new IntentFilter(EMChatManager.getInstance().getCmdMessageBroadcastAction());
-        this.registerReceiver(cmdMessageReceiver, cmdIntentFilter);
-
+        registerReceiver(cmdMessageReceiver, cmdIntentFilter);
     }
 
     @Override
@@ -154,6 +154,13 @@ public class MainActivity extends ChatFragmentActivity {
         ;
         tabPager.setCurrentItem(index, true);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+         unregisterReceiver(cmdMessageReceiver);
+    }
+
     private BroadcastReceiver cmdMessageReceiver = new BroadcastReceiver() {
 
         @Override
@@ -167,8 +174,8 @@ public class MainActivity extends ChatFragmentActivity {
             String aciton = cmdMsgBody.action;//获取自定义action
             //获取扩展属性
             try {
-                String attr=message.getStringAttribute("a");
-            }catch (Exception ex){
+                String attr = message.getStringAttribute("a");
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }

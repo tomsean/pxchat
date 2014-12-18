@@ -7,10 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chat.mobile.R;
 import com.easemob.chat.EMChatManager;
+import com.squareup.picasso.Picasso;
 
 public class SetFragment extends Fragment {
     private Context context;
@@ -33,9 +35,11 @@ public class SetFragment extends Fragment {
         return v;
 
     }
+
     private void initView() {
         // TODO Auto-generated method stub
-        TextView title = (TextView) v.findViewById(R.id.title);
+        TextView title = (TextView) v.findViewById(R.id.title2);
+
         try {
             String userName = EMChatManager.getInstance().getCurrentUser();
             title.setText(userName);

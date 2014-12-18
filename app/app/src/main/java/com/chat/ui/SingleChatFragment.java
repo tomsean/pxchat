@@ -119,10 +119,17 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
                 return false;
             }
         });
-        NewMessageBroadcastReceiver msgReceiver = new NewMessageBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(EMChatManager.getInstance().getNewMessageBroadcastAction());
         intentFilter.setPriority(3);
         registerReceiver(msgReceiver, intentFilter);
+    }
+
+    private NewMessageBroadcastReceiver msgReceiver = new NewMessageBroadcastReceiver();
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(msgReceiver);
     }
 
     @Override
@@ -222,6 +229,7 @@ public class SingleChatFragment extends FragmentActivity implements EmojiconGrid
     }
 
     public void back(View view) {
+
         finish();
     }
 
