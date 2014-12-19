@@ -39,13 +39,19 @@ public class ApiKeyProvider {
      * @throws android.accounts.AccountsException
      * @throws java.io.IOException
      */
-    public String getAuthKey(final Activity activity) throws AccountsException, IOException {
-        final AccountManagerFuture<Bundle> accountManagerFuture
-                = accountManager.getAuthTokenByFeatures(Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE,
-                Constants.Auth.AUTHTOKEN_TYPE, new String[0], activity, null, null, null, null);
-        Bundle bundle=  accountManagerFuture.getResult();
-        String result=bundle.getString(KEY_AUTHTOKEN);
-        return result;
+    public String getAuthKey(final Activity activity) {
+        try {
+
+            final AccountManagerFuture<Bundle> accountManagerFuture
+                    = accountManager.getAuthTokenByFeatures(Constants.Auth.BOOTSTRAP_ACCOUNT_TYPE,
+                    Constants.Auth.AUTHTOKEN_TYPE, new String[0], activity, null, null, null, null);
+            Bundle bundle=  accountManagerFuture.getResult();
+            String result=bundle.getString(KEY_AUTHTOKEN);
+            return result;
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return "";
     }
 }
 

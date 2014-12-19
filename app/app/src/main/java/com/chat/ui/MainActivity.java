@@ -1,5 +1,6 @@
 package com.chat.ui;
 
+import android.accounts.OperationCanceledException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +16,9 @@ import android.view.View;
 
 import com.beardedhen.androidbootstrap.FontAwesomeText;
 import com.chat.ChatServiceProvider;
+import com.chat.core.ChatService;
 import com.chat.mobile.R;
+import com.chat.util.SafeAsyncTask;
 import com.easemob.EMCallBack;
 import com.easemob.chat.CmdMessageBody;
 import com.easemob.chat.EMChat;
@@ -44,15 +47,45 @@ public class MainActivity extends ChatFragmentActivity {
     @Inject
     protected ChatServiceProvider serviceProvider;
     private FontAwesomeText[] tabBtns;
+    @Inject
+    public ChatServiceProvider chatServiceProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        try {
+            checkAuth();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
         init();
     }
+private void checkAuth(){
+    new SafeAsyncTask<Boolean>(){
 
+        @Override
+        public Boolean call() throws Exception {
+            ChatService service= chatServiceProvider.getService(MainActivity.this);
+            return service!=null;
+        }
+        @Override
+        protected void onException(final Exception e) throws RuntimeException {
+            super.onException(e);
+            if (e instanceof OperationCanceledException) {
+                // User cancelled the authentication process (back button, etc).
+                // Since auth could not take place, lets finish this activity.
+                finish();
+            }
+        }
+        @Override
+        protected void onSuccess(final Boolean hasAuthenticated) throws Exception {
+            super.onSuccess(hasAuthenticated);
+//            userHasAuthenticated = true;
+//            initScreen();
+        }
+    }.execute();
+}
     private void init() {
         fragments = new ArrayList<Fragment>();
         fragments.add(new NotificationListFragment());
@@ -158,7 +191,7 @@ public class MainActivity extends ChatFragmentActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-         unregisterReceiver(cmdMessageReceiver);
+        unregisterReceiver(cmdMessageReceiver);
     }
 
     private BroadcastReceiver cmdMessageReceiver = new BroadcastReceiver() {

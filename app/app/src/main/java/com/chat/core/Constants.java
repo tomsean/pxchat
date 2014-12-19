@@ -12,7 +12,7 @@ public class Constants {
         /**
          * Account type id
          */
-        public static final String BOOTSTRAP_ACCOUNT_TYPE = "com.job.app.mobile";
+        public static final String BOOTSTRAP_ACCOUNT_TYPE = "com.chat";
 
         /**
          * Account name
@@ -22,7 +22,7 @@ public class Constants {
         /**
          * Provider id
          */
-        public static final String BOOTSTRAP_PROVIDER_AUTHORITY = "com.job.app.mobile.sync";
+        public static final String BOOTSTRAP_PROVIDER_AUTHORITY = "com.chat.sync";
 
         /**
          * Auth token type

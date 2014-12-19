@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class LoginFragment extends FragmentActivity {
     @InjectView(R.id.userName)
@@ -26,7 +27,7 @@ public class LoginFragment extends FragmentActivity {
     @InjectView(R.id.pwd)
     public EditText pwd;
     private Activity content;
-
+   private PhotoViewAttacher mAttacher;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +35,9 @@ public class LoginFragment extends FragmentActivity {
         ImageView imgTest = (ImageView)findViewById(R.id.img_test);
         try {
             Picasso.with(this)
-                    .load("http://f.hiphotos.baidu.com/image/pic/item/cdbf6c81800a19d8a1d53c0c31fa828ba71e46e0.jpg")
+                    .load("http://www.qqzhi.com/uploadpic/2014-05-07/220325164.jpg")
                     .error(R.drawable.ee_1).into(imgTest);
+            mAttacher = new PhotoViewAttacher(imgTest);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
