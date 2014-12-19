@@ -77,7 +77,7 @@ public class NotificationListAdapter extends ArrayAdapter<NotificationRowModel> 
 
             p.setIndicatorsEnabled(true);
             p.load("http://f.hiphotos.baidu.com/image/pic/item/cdbf6c81800a19d8a1d53c0c31fa828ba71e46e0.jpg")
-                    .error(R.drawable.default_avatar).resize(45, 45).into(holder.avatar);
+                    .error(R.drawable.default_avatar).resize(60, 60).into(holder.avatar);
             //holder.avatar.setImageResource(R.drawable.default_avatar);
             if (username.equals(Constants.Easemob.GROUP_USERNAME)) {
                 holder.name.setText("群聊");

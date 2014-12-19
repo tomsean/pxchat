@@ -1,20 +1,21 @@
 package com.chat.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.chat.ChatApplication;
 import com.chat.mobile.R;
 import com.chat.ui.adapter.NotificationListAdapter;
 import com.chat.ui.model.NotificationRowModel;
-import com.chat.util.Ln;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
 import com.easemob.chat.EMGroup;
@@ -30,8 +31,14 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import in.srain.cube.mints.base.TitleBaseFragment;
+import in.srain.cube.util.LocalDisplay;
+import in.srain.cube.views.ptr.PtrClassicDefaultHeader;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 
-public class NotificationListFragment extends Fragment {
+public class NotificationListFragment extends TitleBaseFragment {
     private View view;
     @InjectView(R.id.list)
     public ListView list;
@@ -39,8 +46,8 @@ public class NotificationListFragment extends Fragment {
     private List<NotificationRowModel> rowModels;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected View createView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHeaderTitle("你好");
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_notification_list, container, false);
         }
@@ -56,7 +63,7 @@ public class NotificationListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 NotificationRowModel emContact = adapter.getItem(i);
-                String userName=ChatApplication.getInstance().getUserName();
+                String userName = ChatApplication.getInstance().getUserName();
                 if (adapter.getItem(i).getName().equals(userName))
                     Toast.makeText(getActivity(), "不能和自己聊天", Toast.LENGTH_SHORT).show();
                 else {
@@ -76,6 +83,58 @@ public class NotificationListFragment extends Fragment {
                 }
             }
         });
+        final PtrClassicFrameLayout mPtrFrame = (PtrClassicFrameLayout) view.findViewById(R.id.store_house_ptr_frame);
+        //mPtrFrame.setPullToRefresh(true);
+        // the following are default settings
+        mPtrFrame.setResistance(1.7f);
+        mPtrFrame.setRatioOfHeaderHeightToRefresh(1.2f);
+        mPtrFrame.setDurationToClose(200);
+        mPtrFrame.setDurationToCloseHeader(1000);
+        // default is false
+        mPtrFrame.setPullToRefresh(false);
+        // default is true
+        mPtrFrame.setKeepHeaderWhenRefresh(false);
+        final View loading = createSimpleLoadingTip(getActivity());
+        mTitleHeaderBar.getRightViewContainer().addView(loading);
+        mTitleHeaderBar.setTitle("test");
+        Drawable bitmap = getResources().getDrawable(R.drawable.ic_launcher);
+        mTitleHeaderBar.getLeftImageView().setImageDrawable(bitmap);
+        mTitleHeaderBar.getLeftImageView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "fasdfasd", Toast.LENGTH_LONG).show();
+            }
+        });
+        mTitleHeaderBar.getTitleTextView().setText("test2");
+        mPtrFrame.setPtrHandler(new PtrDefaultHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                loading.setVisibility(View.VISIBLE);
+                frame.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loading.setVisibility(View.INVISIBLE);
+                        mPtrFrame.refreshComplete();
+                    }
+                }, 1500);
+            }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return true;
+            }
+        });
+        return view;
+    }
+
+    public static View createSimpleLoadingTip(Context context) {
+        final View view = LayoutInflater.from(context).inflate(R.layout.cube_ptr_simple_loading, null);
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(-2, -2);
+        lp.setMargins(0, 0, 0, LocalDisplay.dp2px(4));
+        lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        lp.addRule(RelativeLayout.CENTER_VERTICAL);
+        view.setLayoutParams(lp);
+        view.setVisibility(View.INVISIBLE);
         return view;
     }
 
@@ -152,4 +211,5 @@ public class NotificationListFragment extends Fragment {
             }
         });
     }
+
 }
